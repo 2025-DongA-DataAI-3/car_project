@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>광주광역시 전기차 정책 대시보드</h1>
+<p class="subtitle"> 광주광역시 전기차 보급 현황과 정책 효과를 한눈에 살펴봅니다. </p>
+<div class="kpi-container">
+    <div class="kpi-card">
+        <h3>🚗전기차 등록 대수</h3>
+        <p class="kpi-number">XX,XXX 대</p>
+        <span class="kpi-desc"> 광주 전체</span>
+    </div>
+
+    <div class="kpi-card">
+        <h3>🔌충전소 수</h3>
+        <p class="big-number">XXX 개소</p>
+        <span class="kpi-desc">공공 + 민간</span>
+    </div>
+
+    <div class="kpi-card">
+        <h3>💰 보조금 누적</h3>
+        <p class="big-number">XXXX 억 원</p>
+        <span class="kpi-desc">2021~2025</span>
+    </div>
+
+     <div class="kpi-card warning">
+        <h3>⚠ 충전소 대비 전기차</h3>
+        <p class="kpi-number">25.3대</p>
+        <span class="kpi-desc">충전 인프라 압박</span>
+    </div>
+</div>
+
+{% endblock %}
+</body>
+</html>
