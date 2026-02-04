@@ -67,4 +67,4 @@ if __name__ == "__main__":
     # debug=True
     # - 코드 수정 시 서버 자동 재시작
     # - 에러 발생 시 상세한 오류 화면 제공
-    app.run(debug=True)
+    app.run(host = '127.0.0.1', port = 5000, debug=False)
