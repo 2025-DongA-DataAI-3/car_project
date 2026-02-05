@@ -2,74 +2,79 @@
 
 {% block content %} 
 <style>
-    .project-container { 
-        max-width: 900px; margin: 20px auto; background: white; 
-        padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        line-height: 1.6; color: #333; 
+    .overview-container { 
+        max-width: 900px; margin: 30px auto; line-height: 1.7; color: #333; 
     }
-    .project-container h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; }
     
-    /* 타임라인 스타일 */
-    .timeline { border-left: 3px solid #e8f0fe; padding-left: 20px; margin: 20px 0; }
-    .timeline-item { margin-bottom: 15px; position: relative; }
-    .timeline-item::before { 
-        content: ''; position: absolute; left: -27px; top: 5px; 
-        width: 12px; height: 12px; background: #1a73e8; border-radius: 50%; 
+    /* 섹션 공통 스타일 */
+    .section-card { 
+        background: white; padding: 35px; border-radius: 12px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 25px; 
     }
-    .timeline-title { font-weight: bold; color: #1a73e8; }
+    .section-title { 
+        color: #2d8a4e; font-size: 1.6rem; border-left: 5px solid #2d8a4e; 
+        padding-left: 15px; margin-bottom: 20px; font-weight: bold;
+    }
 
-    /* 카드형 지표 스타일 */
-    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-    .metric-card { background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
-    .metric-card strong { color: #2d8a4e; display: block; margin-bottom: 5px; }
+    /* 데이터 그리드 스타일 */
+    .data-grid { 
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+        gap: 15px; margin-top: 20px; 
+    }
+    .data-item { 
+        background: #f1f8f3; padding: 15px; border-radius: 8px; 
+        text-align: center; border: 1px solid #d1e7dd; 
+    }
+    .data-item i { display: block; font-size: 1.5rem; margin-bottom: 8px; }
 
-    .info-box { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    /* 하이라이트 박스 */
+    .insight-box { 
+        background: #eef2ff; border-radius: 10px; padding: 20px; 
+        border: 1px dashed #4f46e5; margin-top: 15px; 
+    }
+    .highlight { color: #2d8a4e; font-weight: bold; }
 </style>
 
-<div class="project-container">
-    <h1>⚡ 번개맨: 광주 전기차 전환 전략 분석</h1>
+<div class="overview-container">
+    
+    <section class="section-card">
+        <div class="section-title">프로젝트 배경 및 목적</div>
+        <p>
+            전기차는 친환경 교통수단으로서 빠르게 보급되고 있으며, 지자체 차원에서도 전기차 확대를 위한 다양한 정책이 추진되고 있습니다. 
+            <span class="highlight">광주광역시</span> 역시 전기차 구매보조금 지원과 충전 인프라 확충을 통해 보급을 적극적으로 장려하고 있습니다.
+        </p>
+        <p>
+            본 프로젝트는 광주의 현 상태를 진단하고, <strong>데이터 기반의 객관적인 인사이트</strong>를 도출하여 더 효율적인 정책 방향을 고민하기 위해 시작되었습니다.
+        </p>
+    </section>
 
-    <h2>📅 프로젝트 분석 로드맵</h2>
-    <div class="timeline">
-        <div class="timeline-item">
-            <div class="timeline-title">Phase 1. 데이터 수집</div>
-            <div>광주광역시 자동차 등록 현황 및 충전 인프라 위치 데이터 확보</div>
+    <section class="section-card">
+        <div class="section-title">종합 데이터 수집 범위</div>
+        <p>광주광역시의 현황을 다각도로 살펴보기 위해 다음의 핵심 데이터를 종합적으로 분석합니다.</p>
+        <div class="data-grid">
+            <div class="data-item">👥<br><strong>인구 구조</strong><br><small>연령별·지역별 분포</small></div>
+            <div class="data-item">⛽<br><strong>차량 연료 유형</strong><br><small>내연차 vs 친환경차</small></div>
+            <div class="data-item">🔌<br><strong>충전 인프라</strong><br><small>충전소 위치 및 밀도</small></div>
+            <div class="data-item">💰<br><strong>구매보조금</strong><br><small>연도별 지원 현황</small></div>
         </div>
-        <div class="timeline-item">
-            <div class="timeline-title">Phase 2. 상관분석</div>
-            <div>거주 인구 및 노후 차량 밀집 지역과 전기차 보급률 비교 분석</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-title">Phase 3. 정책 제언</div>
-            <div>2045 탄소중립 실현을 위한 최적의 충전소 입지 제안</div>
-        </div>
-    </div>
+    </section>
 
-    <h2>🔍 우리가 집중하는 핵심 지표 (KPI)</h2>
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <strong>📍 충전 편의성 </strong>
-            거주 인구 대비 충전기 대수 비율 분석
+    <section class="section-card">
+        <div class="section-title">분석 포인트 및 기대효과</div>
+        <p>
+            단순한 통계 나열을 넘어, 요소 간의 <strong>상관관계</strong>를 시각 자료를 통해 직관적으로 설명하는 데 초점을 둡니다.
+        </p>
+        <div class="insight-box">
+            <ul>
+                <li>지역별 인구 밀도와 충전소 분포의 적정성 평가</li>
+                <li>연료 유형 변화 추이를 통한 미래 전기차 수요 예측</li>
+                <li>정책 지원(보조금)이 실질적인 보급률에 미치는 영향 분석</li>
+            </ul>
         </div>
-        <div class="metric-card">
-            <strong>💨 ''</strong>
-            
-        </div>
-        <div class="metric-card">
-            <strong>💰 정책 효율성</strong>
-            보조금 지급 금액 대비 전환 속도 상관관계
-        </div>
-        <div class="metric-card">
-            <strong>🚗 ''</strong>
-            
-        </div>
-    </div>
+        <p style="margin-top:15px; font-style: italic; color: #666;">
+            "우리는 데이터를 통해 광주광역시 전기차 정책의 <strong>의미 있는 패턴</strong>을 찾아냅니다."
+        </p>
+    </section>
 
-    <div class="info-box">
-        <strong>🎯 번개맨 팀의 목표</strong><br>
-        데이터를 통해 광주광역시의 탄소중립 가계부가 <strong>지출(탄소)보다 수익(환경)</strong>이 더 큰 스마트 시티가 될 수 있도록 과학적인 근거를 제시합니다.
-    </div>
 </div>
 {% endblock %}
-</body>
-</html>
