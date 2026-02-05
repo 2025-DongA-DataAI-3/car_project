@@ -3,25 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <title>광주광역시 전기차 전환</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+
+  <style>
+    /* 전체 초기화 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: #0f172a;
+      color: white;
+    }
+
+    /* 히어로 영역 */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(
+        120deg,
+        #0f172a 0%,
+        #1e3a8a 50%,
+        #2563eb 100%
+      );
+      overflow: hidden;
+    }
+
+    /* 오버레이 */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at bottom,
+        rgba(255,255,255,0.08),
+        rgba(0,0,0,0.75)
+      );
+    }
+
+    /* 콘텐츠 */
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 720px;
+      padding: 0 20px;
+    }
+
+    .content h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .content p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #e5e7eb;
+      margin-bottom: 60px;
+    }
+
+    /* 자동차 버튼 */
+    .car-wrapper {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .car-wrapper:hover {
+      transform: translateY(-6px);
+    }
+
+    .car {
+      font-size: 3.5rem;
+      background: white;
+      color: #2563eb;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .car-wrapper:hover .car {
+      background: #2563eb;
+      color: white;
+      transform: scale(1.08);
+    }
+
+    .car-wrapper span {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #dbeafe;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .content h1 {
+        font-size: 2.4rem;
+      }
+
+      .content p {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
 <section class="hero">
-  <h1>
-    전기차 정책,<br>
-    모두에게 같아야 할까?
-  </h1>
+  <div class="overlay"></div>
 
-  <p>
-    광주광역시 데이터를 통해 살펴본<br>
-    전기차 전환의 지역별 차이
-  </p>
+  <div class="content">
+    <h1>
+      전기차 정책,<br>
+      모두에게 같아야 할까?
+    </h1>
 
-  <!-- 자동차 클릭 시 개요 페이지로 이동 -->
-  <div class="car" onclick="location.href='/overview'">
-    🚗
-    <span>분석 시작하기</span>
+    <p>
+      광주광역시 데이터를 통해 살펴본<br>
+      전기차 전환의 지역별 차이
+    </p>
+
+    <!-- 자동차 클릭 시 분석 페이지로 이동 -->
+    <div class="car-wrapper" onclick="location.href='/overview'">
+      <div class="car">🚗</div>
+      <span>분석 시작하기</span>
+    </div>
   </div>
 </section>
 
