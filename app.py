@@ -11,7 +11,7 @@ app = Flask(__name__)
 # 주소: http://127.0.0.1:5000/
 # -----------------------------
 @app.route("/")
-def index():pt  # templates 폴더 안의 index.html 파일을 화면에 보여줌
+def index():  # templates 폴더 안의 index.html 파일을 화면에 보여줌
     return render_template("index.html")
 
 # -----------------------------
