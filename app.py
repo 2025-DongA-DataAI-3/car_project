@@ -40,4 +40,4 @@ def team():
     return render_template("team.html")
 
 if __name__ == "__main__":
-    app.run(host = '0.0.0.0', port = 5000, debug=True) # 개발 중엔 debug=True가 편합니다.
+    app.run(host = '127.0.0.1', port = 5000, debug=True) # 개발 중엔 debug=True가 편합니다.
