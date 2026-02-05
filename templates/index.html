@@ -1,16 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+   <meta charset="UTF-8">
+    <title>광주광역시 탄소중립 프로젝트</title>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; }
+        h2 { color: #444; margin-top: 30px; display: flex; align-items: center; }
+        h3 { color: #1a73e8; background: #e8f0fe; padding: 5px 15px; border-radius: 5px; display: inline-block; }
+        ul { list-style: none; padding-left: 0; }
+        li { margin-bottom: 12px; padding-left: 25px; position: relative; }
+        li::before { content: "✔"; position: absolute; left: 0; color: #2d8a4e; font-weight: bold; }
+        .highlight { font-weight: bold; color: #d93025; }
+        .info-box { background: #f1f8e9; border-left: 5px solid #8bc34a; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+    </style>
 </head>
 <body>
-{% extends "base.html" %}
 
-{% block content %}
-<h1>전기차</h1>
+<div class="container">
+    <h1>🚗 광주광역시 전기차 보급 활성화 프로젝트</h1>
 
+    <h2>📌 1. 배경 및 목적</h2>
+    
+    <h3>환경 및 사회적 필요</h3>
+    <ul>
+        <li>광주광역시는 미세먼지 저감과 <span class="highlight">2045 탄소중립 실현</span>을 정책 목표로 설정하고 있습니다.</li>
+        <li>전기차 보급 확대를 핵심 수단으로 삼아 대기질 개선에 앞장섭니다.</li>
+        <li>내연차를 전기차로 전환할 경우 <span class="highlight">추가 보조금 및 인센티브</span>를 지원하여 빠른 전환을 촉진합니다.</li>
+    </ul>
+
+    <div class="info-box">
+        <strong>💡 탄소중립(Net-Zero)이란?</strong><br>
+        지구 가계부를 쓴다고 생각하면 쉽습니다. 탄소 배출(지출)과 친환경 에너지 활용을 통한 흡수(수입)를 똑같이 맞춰 <strong>최종 합계를 '0'</strong>으로 만드는 것입니다.
+    </div>
+
+    <h3>지역 경제 및 산업적 배경</h3>
+    <ul>
+        <li>광주 내 <strong>이차전지 산업</strong> 및 친환경 모빌리티 기술 육성을 위해 산·학·연 협력 체계를 강화하고 있습니다.</li>
+    </ul>
+
+    <h2>📌 2. 주요 목표 및 효과</h2>
+    
+    <h3>경제적·사회적 효과</h3>
+    <ul>
+        <li>충전 인프라 및 서비스 산업 확장을 통한 <strong>지역 일자리 창출</strong></li>
+        <li>청년층·저소득층의 전기차 접근성 향상 및 보편적 이동권 확보</li>
+        <li>기후변화 대응을 통한 <strong>지속 가능한 도시 모델</strong> 구축</li>
+    </ul>
+</div>
 
 {% endblock %}
 </body>
