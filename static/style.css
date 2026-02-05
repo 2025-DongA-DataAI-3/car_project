@@ -202,97 +202,112 @@ h1 {
 
 /* ===== conclusion 카드 영역 ===== */
 
-/* 컨테이너 설정 */
+/* 컨테이너: 카드들을 가로로 배치 */
 .conclusion-card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 25px;
     justify-content: center;
-    perspective: 1000px; /* 3D 효과를 위한 설정 */
+    perspective: 1500px;
+    margin: 40px 0;
 }
 
 .conclusion-card-wrapper {
     width: 320px;
-    height: 420px;
+    height: 450px; /* 높이를 살짝 키워 여유를 줌 */
     cursor: pointer;
 }
 
-/* 카드 본체 */
 .conclusion-card {
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
 
-/* 클릭 시 뒤집힘 */
 .conclusion-card.flip {
     transform: rotateY(180deg);
 }
 
-/* 앞면 & 뒷면 공통 디자인 */
+/* 앞면 & 뒷면 공통 스타일 */
 .conclusion-card-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* 뒤집었을 때 뒷면이 안 보이게 */
-    border-radius: 20px;
-    padding: 30px; /* 양옆 상하 여백 동일하게 설정 */
+    backface-visibility: hidden;
+    border-radius: 24px; /* 더 둥글고 세련된 모서리 */
+    padding: 35px; /* 모든 면의 여백을 35px로 통일 */
     box-sizing: border-box;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 내용 배치를 균형 있게 */
-    align-items: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* 앞면 디자인 (색상 포인트) */
+/* 앞면: 예쁜 그라데이션 디자인 */
 .conclusion-card-face:not(.conclusion-card-back) {
-    background: linear-gradient(145deg, #ffffff, #f0f4f8);
-    background-image: radial-gradient(at 0% 0%, rgba(94, 158, 255, 0.1) 0, transparent 50%);
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+    border: 1px solid #eef2f7;
+    justify-content: center; /* 앞면은 중앙 정렬 느낌 */
+    align-items: center;
+    text-align: center;
 }
 
-/* 뒷면 디자인 (뒤집힌 상태) */
+/* 뒷면: 정보 집중형 디자인 */
 .conclusion-card-back {
     background: #ffffff;
     transform: rotateY(180deg);
-    text-align: left; /* 뒷면 텍스트는 가독성을 위해 좌측 정렬 */
-    justify-content: flex-start; /* 위에서부터 차곡차곡 */
+    text-align: left; /* 왼쪽 정렬 */
+    justify-content: flex-start;
+    border: 1px solid #007bff; /* 포인트 테두리 */
 }
 
-/* 텍스트 요소들 */
+/* 카드 내부 텍스트 스타일 */
 .conclusion-card h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    font-weight: 800;
     margin-bottom: 15px;
-    color: #333;
+    color: #1a1a1a;
+    word-break: keep-all;
 }
 
+.conclusion-card p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* 뒷면 소제목 (특징, 필요 정책) - 왼쪽 라인 맞춤 */
 .conclusion-card-back h3 {
     font-size: 1.1rem;
+    font-weight: 700;
     color: #007bff;
-    margin-bottom: 10px;
-    border-left: 4px solid #007bff;
-    padding-left: 10px;
+    margin: 0 0 10px 0; /* 불필요한 마진 제거 */
+    padding: 0;
 }
 
-.conclusion-card ul {
-    padding-left: 20px;
-    margin: 0;
+/* 리스트 스타일 - 왼쪽 여백 최소화하여 제목과 라인 맞춤 */
+.conclusion-card-back ul {
+    margin: 0 0 25px 0;
+    padding-left: 18px; /* 불렛 포인트 공간 */
+    list-style-type: disc;
+}
+
+.conclusion-card-back li {
     font-size: 0.95rem;
-    line-height: 1.6;
-    color: #555;
+    color: #444;
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
-/* 하단 뱃지 스타일 */
+/* 뱃지 스타일 */
 .policy-badge {
+    display: inline-block;
     background: #007bff;
     color: white;
-    padding: 8px 20px;
+    padding: 8px 18px;
     border-radius: 50px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 10px;
 }
