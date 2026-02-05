@@ -15,7 +15,11 @@
     body {
       height: 100vh;
       overflow: hidden;
-      background: linear-gradient(120deg, #0f9d58, #34a853);
+      background: linear-gradient(
+        135deg,
+        #0b3d2e,
+        #0f172a
+      );
       color: white;
     }
 
@@ -28,10 +32,10 @@
       height: 100vh;
     }
 
-    /* 텍스트 영역 (위쪽 배치) */
+    /* 텍스트 */
     .content {
       position: absolute;
-      top: 18%;
+      top: 14%;
       width: 100%;
       text-align: center;
       z-index: 3;
@@ -43,98 +47,94 @@
       font-weight: 800;
       line-height: 1.25;
       margin-bottom: 18px;
+      letter-spacing: -0.02em;
     }
 
     p {
       font-size: 1.25rem;
       line-height: 1.6;
-      color: #eafff3;
-    }
-
-    .start-text {
-      margin-top: 24px;
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      opacity: 0.9;
       color: #d1fae5;
     }
 
+    .start-text {
+      margin-top: 26px;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      color: #bbf7d0;
+    }
+
     /* ===============================
-       자동차 영역
+       자동차
     =============================== */
     .car-wrapper {
       position: absolute;
-      bottom: 12%;
-      right: -500px;
-      width: 1000px;   /* 🔥 자동차 크게 */
+      bottom: 11%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
       cursor: pointer;
-      animation: driveIn 2s ease-out forwards;
       z-index: 5;
+      animation: driveIn 2s ease-out forwards;
     }
 
     .car-wrapper:hover {
-      transform: scale(1.05);
+      transform: translateX(-50%) scale(1.05);
     }
 
     .car {
       width: 100%;
       display: block;
-      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.4));
+      filter: drop-shadow(0 22px 36px rgba(0,0,0,0.55));
     }
 
     @keyframes driveIn {
       0% {
-        right: -500px;
-      }
-      70% {
-        right: 55%;
+        transform: translateX(130vw);
       }
       100% {
-        right: 50%;
+        transform: translateX(-50%);
       }
     }
 
     /* ===============================
-       번개 이펙트
+       ⚡ 번개
     =============================== */
     .lightning-container {
       position: absolute;
-      inset: -60px;
+      inset: -80px;
       pointer-events: none;
-      opacity: 0;
     }
 
-    .lightning-container.active {
-      opacity: 1;
-    }
-
-    .bolt {
+    .lightning {
       position: absolute;
-      width: 6px;
-      height: 80px;
+      width: 70px;
+      height: 140px;
       background: linear-gradient(
-        to bottom,
-        #ffffff,
-        #bbf7d0,
-        rgba(255,255,255,0)
+        135deg,
+        transparent 0%,
+        #ffffff 45%,
+        #bbf7d0 65%,
+        transparent 100%
       );
-      border-radius: 3px;
-      animation: boltFlash 0.4s ease-out forwards;
+      clip-path: polygon(
+        45% 0%,
+        60% 0%,
+        48% 36%,
+        70% 36%,
+        28% 100%,
+        46% 56%,
+        30% 56%
+      );
+      opacity: 0;
+      animation: zap 0.35s ease-out forwards;
     }
 
-    @keyframes boltFlash {
-      0% {
-        opacity: 0;
-        transform: scaleY(0.2);
-      }
-      30% {
-        opacity: 1;
-        transform: scaleY(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scaleY(0.1);
-      }
+    @keyframes zap {
+      0% { opacity: 0; transform: scaleY(0.3); }
+      30% { opacity: 1; transform: scaleY(1); }
+      100% { opacity: 0; transform: scaleY(0.2); }
     }
 
     /* ===============================
@@ -142,7 +142,7 @@
     =============================== */
     @media (max-width: 768px) {
       h1 {
-        font-size: 2.4rem;
+        font-size: 2.3rem;
       }
 
       p {
@@ -151,7 +151,7 @@
 
       .car-wrapper {
         width: 260px;
-        bottom: 10%;
+        bottom: 9%;
       }
     }
   </style>
@@ -161,7 +161,6 @@
 
 <section class="hero">
 
-  <!-- 텍스트 -->
   <div class="content">
     <h1>
       전기차 정책,<br>
@@ -174,14 +173,13 @@
     </p>
 
     <div class="start-text">
-      자동차를 클릭해 분석을 시작하세요
+      Click the car to begin analysis
     </div>
   </div>
 
-  <!-- 자동차 + 번개 -->
-  <div class="car-wrapper" id="carWrapper">
+  <div class="car-wrapper" id="car">
     <img
-      src="{{ url_for('static', filename='car.png') }}"
+      src="{{ url_for('static', filename='images/car.png') }}"
       alt="전기차"
       class="car"
     />
@@ -191,33 +189,28 @@
 </section>
 
 <script>
-  const carWrapper = document.getElementById('carWrapper');
-  const lightning = document.getElementById('lightning');
+  const car = document.getElementById('car');
+  const lightningBox = document.getElementById('lightning');
 
-  function createLightning() {
-    lightning.innerHTML = '';
-    lightning.classList.add('active');
+  function spawnLightning() {
+    lightningBox.innerHTML = '';
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
       const bolt = document.createElement('div');
-      bolt.classList.add('bolt');
-
+      bolt.className = 'lightning';
       bolt.style.left = Math.random() * 100 + '%';
       bolt.style.top = Math.random() * 80 + '%';
-      bolt.style.animationDelay = (Math.random() * 0.15) + 's';
-
-      lightning.appendChild(bolt);
+      bolt.style.animationDelay = Math.random() * 0.15 + 's';
+      lightningBox.appendChild(bolt);
     }
 
     setTimeout(() => {
-      lightning.classList.remove('active');
-      lightning.innerHTML = '';
+      lightningBox.innerHTML = '';
     }, 500);
   }
 
-  carWrapper.addEventListener('click', () => {
-    createLightning();
-
+  car.addEventListener('click', () => {
+    spawnLightning();
     setTimeout(() => {
       window.location.href = '/overview';
     }, 600);
