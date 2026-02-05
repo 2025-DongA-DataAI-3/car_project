@@ -15,15 +15,10 @@
     body {
       height: 100vh;
       overflow: hidden;
-      background: linear-gradient(
-        120deg,
-        #0f9d58,
-        #34a853
-      );
+      background: linear-gradient(120deg, #0f9d58, #34a853);
       color: white;
     }
 
-    /* 전체 영역 */
     .hero {
       position: relative;
       height: 100vh;
@@ -32,7 +27,6 @@
       justify-content: center;
     }
 
-    /* 배경 오버레이 */
     .overlay {
       position: absolute;
       inset: 0;
@@ -43,7 +37,6 @@
       );
     }
 
-    /* 텍스트 콘텐츠 */
     .content {
       position: relative;
       z-index: 2;
@@ -66,12 +59,19 @@
       margin-bottom: 90px;
     }
 
-    /* 자동차 이미지 */
+    .start-text {
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: #d1fae5;
+      opacity: 0.9;
+    }
+
+    /* 🚗 자동차 */
     .car {
       position: absolute;
       bottom: 18%;
-      left: -220px;              /* 화면 밖에서 시작 */
-      width: 170px;              /* 자동차 크기 */
+      right: -240px;                 /* 오른쪽 밖에서 시작 */
+      width: 170px;
       cursor: pointer;
       animation: driveIn 1.8s ease-out forwards;
       transition: transform 0.3s ease;
@@ -83,35 +83,27 @@
       transform: scale(1.08);
     }
 
-    /* 자동차 진입 애니메이션 */
     @keyframes driveIn {
       0% {
-        right: -220px;
+        right: -240px;
       }
       70% {
-        right: 52%;
+        right: 50%;
       }
       100% {
         right: 50%;
+        transform: translateX(50%);
       }
     }
 
-    /* 안내 문구 */
-    .start-text {
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      color: #d1fae5;
-      opacity: 0.9;
-    }
-
-    /* 번개 이펙트 */
+    /* ⚡ 번개 */
     .lightning {
       position: absolute;
       inset: 0;
       pointer-events: none;
       background: radial-gradient(
         circle at center,
-        rgba(255,255,255,0.95),
+        rgba(255,255,255,0.9),
         rgba(255,255,255,0.4),
         rgba(255,255,255,0)
       );
@@ -126,25 +118,15 @@
     @keyframes flash {
       0% { opacity: 0; }
       20% { opacity: 1; }
-      40% { opacity: 0.3; }
+      40% { opacity: 0.2; }
       60% { opacity: 1; }
       100% { opacity: 0; }
     }
 
-    /* 반응형 */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.4rem;
-      }
-
-      p {
-        font-size: 1.05rem;
-      }
-
-      .car {
-        width: 130px;
-        bottom: 16%;
-      }
+      h1 { font-size: 2.4rem; }
+      p { font-size: 1.05rem; }
+      .car { width: 130px; bottom: 16%; }
     }
   </style>
 </head>
@@ -171,7 +153,6 @@
     </div>
   </div>
 
-  <!-- 자동차 이미지 -->
   <img
     src="{{ url_for('static', filename='images/car.png') }}"
     class="car"
@@ -185,10 +166,8 @@
   const lightning = document.getElementById('lightning');
 
   car.addEventListener('click', () => {
-    // 번개 효과
     lightning.classList.add('active');
 
-    // 잠깐 후 base 구조 페이지로 이동
     setTimeout(() => {
       window.location.href = '/overview';
     }, 500);
