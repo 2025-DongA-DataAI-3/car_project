@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>광주광역시 자동차 등록 증가량</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      padding: 40px;
+    }
+
+    .chart-container {
+      max-width: 900px;
+      height: 550px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* 🔽 범례 스타일 */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-box {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    .blue {
+      background-color: #3b82f6;
+    }
+
+    .red {
+      background-color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chart-container">
+    <h2>광주광역시 자동차 총 등록대수 연간 증가량 (2021–2025)</h2>
+    <canvas id="carIncreaseChart"></canvas>
+
+    <!-- ✅ 진짜 범례 -->
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-box blue"></span>
+        <span>자동차 등록 증가</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-box red"></span>
+        <span>자동차 등록 감소</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('carIncreaseChart');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+          label: '연간 증가량',
+          data: [9043, 13618, 8855, 7495, -500],
+          backgroundColor: [
+            '#3b82f6',
+            '#3b82f6',
+            '#3b82f6',
+            '#3b82f6',
+            '#ef4444'
+          ],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+            formatter: v => v.toLocaleString() + '대',
+            color: ctx => ctx.raw < 0 ? '#ef4444' : '#1f2937',
+            font: { weight: 'bold' }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: '연도',
+              font: { weight: 'bold' }
+            },
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: '자동차 등록대수 증감 (대)',
+              font: { weight: 'bold' }
+            },
+            ticks: {
+              callback: v => v.toLocaleString()
+            }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  </script>
+
+</body>
+</html>

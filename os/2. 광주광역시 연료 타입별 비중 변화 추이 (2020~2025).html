@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>연도별 연료 타입별 차량 비중 변화</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- 데이터 라벨 플러그인 -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      padding: 40px;
+    }
+
+    .chart-container {
+      max-width: 900px;
+      height: 420px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    /* 범례 */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-box {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    .ev { background-color: #2563eb; }
+    .gas { background-color: #9ca3af; }
+    .diesel { background-color: #f97316; }
+  </style>
+</head>
+<body>
+
+<div class="chart-container">
+  <h2>연도별 연료 타입별 차량 비중 변화 (광주)</h2>
+  <canvas id="fuelTrendChart"></canvas>
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-box ev"></span>
+      <span>저공해차</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box gas"></span>
+      <span>기타</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box diesel"></span>
+      <span>내연기관</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const ctx = document.getElementById('fuelTrendChart');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+    datasets: [
+      {
+        label: '저공해차',
+        data: [3.09, 4.17, 5.65, 7.43, 9.33, 11.58],
+        borderColor: '#2563eb',
+        backgroundColor: '#2563eb',
+        tension: 0.3,
+        pointRadius: 4
+      },
+      {
+        label: '기타',
+        data: [0.7, 0.75, 0.76, 0.75, 0.76, 0.76],
+        borderColor: '#9ca3af',
+        backgroundColor: '#9ca3af',
+        tension: 0.3,
+        pointRadius: 4
+      },
+      {
+        label: '내연기관',
+        data: [96.21, 95.08, 93.59, 91.82, 89.91, 87.66],
+        borderColor: '#f97316',
+        backgroundColor: '#f97316',
+        tension: 0.3,
+        pointRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => `${ctx.dataset.label}: ${ctx.raw}%`
+        }
+      },
+      datalabels: {
+        align: 'top',
+        anchor: 'end',
+        formatter: value => value + '%',
+        font: {
+          size: 11,
+          weight: 'bold'
+        },
+        color: ctx => ctx.dataset.borderColor
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: '연도',
+          font: { weight: 'bold' }
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: '차량 비중 (%)',
+          font: { weight: 'bold' }
+        },
+        ticks: {
+          callback: v => v + '%'
+        },
+        grid: {
+          color: '#e5e7eb'
+        }
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+</script>
+
+</body>
+</html>

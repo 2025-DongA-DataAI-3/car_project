@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>구별 인구수 × 전기차 보급률 (2025)</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- DataLabels -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  <style>
+    .chart-container {
+      width: 850px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chart-container">
+  <canvas id="populationEvChart"></canvas>
+</div>
+
+<script>
+  Chart.register(ChartDataLabels);
+
+  const ctx = document.getElementById('populationEvChart');
+
+  const bubbleData = [
+    { x: 104888, y: 2.816757, r: 15, district: '동구' },
+    { x: 275063, y: 2.817188, r: 22, district: '서구' },
+    { x: 207596, y: 2.817248, r: 18, district: '남구' },
+    { x: 416862, y: 2.817269, r: 28, district: '북구' },
+    { x: 387604, y: 2.817252, r: 26, district: '광산구' }
+  ];
+
+  new Chart(ctx, {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        label: '자치구',
+        data: bubbleData,
+        backgroundColor: 'rgba(37, 99, 235, 0.6)'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: '구별 인구수 × 전기차 보급률 (2025)'
+        },
+        datalabels: {
+          formatter: value => value.district,
+          anchor: 'center',
+          align: 'center',
+          font: {
+            size: 12,
+            weight: 'bold'
+          },
+          color: '#111827'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: '인구수 (명)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: '전기차 보급률 (%)'
+          },
+          min: 2.8165,
+          max: 2.8174
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

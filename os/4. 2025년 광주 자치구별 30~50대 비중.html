@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>3050 인구 비중과 전기차 보급률</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- 데이터 라벨 플러그인 -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      padding: 40px;
+    }
+
+    .chart-container {
+      max-width: 900px;
+      height: 420px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    /* 하단 범례 */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #2563eb;
+    }
+
+    .legend-line {
+      width: 18px;
+      height: 3px;
+      background-color: #ef4444;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chart-container">
+  <h2>2025년 광주 자치구별 30~50대 인구 비중과 전기차 보급률</h2>
+  <div class="subtitle">상관계수 (r) = 0.8566</div>
+
+  <canvas id="correlationChart"></canvas>
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-dot"></span>
+      <span>자치구</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-line"></span>
+      <span>추세선</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const ctx = document.getElementById('correlationChart');
+
+new Chart(ctx, {
+  type: 'scatter',
+  data: {
+    datasets: [
+      {
+        label: '자치구',
+        data: [
+          { x: 47.54, y: 1.62, district: '광산구' },
+          { x: 45.04, y: 1.58, district: '서구' },
+          { x: 45.21, y: 1.44, district: '북구' },
+          { x: 43.76, y: 1.36, district: '남구' },
+          { x: 43.51, y: 1.26, district: '동구' }
+        ],
+        backgroundColor: '#2563eb',
+        pointRadius: 6
+      },
+      {
+        label: '추세선',
+        type: 'line',
+        data: [
+          { x: 43.5, y: 1.33 },
+          { x: 47.6, y: 1.66 }
+        ],
+        borderColor: '#ef4444',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      datalabels: {
+        align: 'right',
+        anchor: 'left',
+        offset: 6,
+        formatter: (value, context) => {
+          if (context.dataset.label === '자치구') {
+            return value.district;
+          }
+          return '';
+        },
+        color: '#111827',
+        font: {
+          size: 12,
+          weight: 'bold'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const v = ctx.raw;
+            if (v.district) {
+              return `${v.district} | 30~50대: ${v.x}% / 전기차 보급률: ${v.y}%`;
+            }
+            return null;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        min: 43.0,
+        max: 48.0,
+        ticks: {
+          stepSize: 0.5
+        },
+        title: {
+          display: true,
+          text: '30~50대 인구 비중 (%)',
+          font: {
+            weight: 'bold'
+          }
+        },
+        grid: {
+          color: '#e5e7eb'
+        }
+      },
+      y: {
+        min: 1.20,
+        max: 1.70,
+        ticks: {
+          stepSize: 0.05
+        },
+        title: {
+          display: true,
+          text: '전기차 보급률 (%)',
+          font: {
+            weight: 'bold'
+          }
+        },
+        grid: {
+          color: '#e5e7eb'
+        }
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+</script>
+
+</body>
+</html>
