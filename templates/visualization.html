@@ -1,10 +1,78 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>광주광역시 전기차 분석</title>
+<style>
+    .section-box {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 30px;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
 
+    .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 25px;
+        border-left: 5px solid #007bff;
+        padding-left: 15px;
+    }
+
+    .card-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .toc-card {
+        background: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .toc-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-color: #007bff;
+    }
+
+    .toc-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+        object-fit: cover;
+        border-radius: 5px;
+        flex-shrink: 0;
+    }
+
+    .card-link {
+        text-decoration: none;
+        color: #444;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    .toc-card:hover .card-link {
+        color: #007bff;
+    }
+
+    @media (max-width: 600px) {
+        .card-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 </head>
 <body>
 
@@ -17,74 +85,53 @@
     <h3 class="section-title">데이터 목록</h3>
 
     <div class="card-list">
-
         <div class="toc-card">
-            <span class="num">①</span>
-            <a href="#chart1" class="card-link">
-                광주광역시 자동차 총 등록대수 연간 증가 추이 (2021~2025)
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart1" class="card-link">광주광역시 자동차 총 등록대수 연간 증가 추이</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">②</span>
-            <a href="#chart2" class="card-link">
-                광주광역시 연도별 연료타입 점유율 변화 (2020~2025)
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart2" class="card-link">광주광역시 연도별 연료타입 점유율 변화</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">③</span>
-            <a href="#chart3" class="card-link">
-                광주광역시 연료 타입별 비중 변화 추이 (2020~2025)
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart3" class="card-link">광주광역시 연료 타입별 비중 변화 추이</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">④</span>
-            <a href="#chart4" class="card-link">
-                구별 전기차 보급 수준 (정규화)
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart4" class="card-link">구별 전기차 보급 수준 (정규화)</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">⑤</span>
-            <a href="#chart5" class="card-link">
-                2025년 구별 30~50대 비중 / 전기차 보급률
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart5" class="card-link">2025년 구별 30~50대 비중 / 전기차 보급률</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">⑥</span>
-            <a href="#chart6" class="card-link">
-                보조금 변화와 전기차 보급 상승량 추이
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart6" class="card-link">보조금 변화와 전기차 보급 상승량 추이</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">⑦</span>
-            <a href="#chart7" class="card-link">
-                구별 인구수 × 전기차 보급률
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart7" class="card-link">구별 인구수 × 전기차 보급률</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">⑧</span>
-            <a href="#chart8" class="card-link">
-                구별 전기차 수 대비 충전기 수 현황
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart8" class="card-link">구별 전기차 수 대비 충전기 수 현황</a>
         </div>
 
         <div class="toc-card">
-            <span class="num">⑨</span>
-            <a href="#chart9" class="card-link">
-                전기차 1대당 충전기 수 (2025)
-            </a>
+            <img src="{{ url_for('static', filename='dictionary.jpg') }}" alt="icon" class="toc-icon">
+            <a href="#chart9" class="card-link">전기차 1대당 충전기 수 (2025)</a>
         </div>
-
     </div>
 </div>
 
 {% endblock %}
-
 </body>
 </html>
