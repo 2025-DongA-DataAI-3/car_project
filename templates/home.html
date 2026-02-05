@@ -5,7 +5,6 @@
   <title>광주광역시 전기차 전환</title>
 
   <style>
-    /* 전체 초기화 */
     * {
       margin: 0;
       padding: 0;
@@ -15,38 +14,36 @@
 
     body {
       height: 100vh;
-      background: #0f172a;
+      overflow: hidden;
+      background: linear-gradient(
+        120deg,
+        #0f9d58,
+        #34a853
+      );
       color: white;
     }
 
-    /* 히어로 영역 */
+    /* 전체 영역 */
     .hero {
       position: relative;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(
-        120deg,
-        #0f172a 0%,
-        #1e3a8a 50%,
-        #2563eb 100%
-      );
-      overflow: hidden;
     }
 
-    /* 오버레이 */
+    /* 배경 오버레이 */
     .overlay {
       position: absolute;
       inset: 0;
       background: radial-gradient(
-        circle at bottom,
+        circle at center,
         rgba(255,255,255,0.08),
-        rgba(0,0,0,0.75)
+        rgba(0,0,0,0.6)
       );
     }
 
-    /* 콘텐츠 */
+    /* 텍스트 콘텐츠 */
     .content {
       position: relative;
       z-index: 2;
@@ -55,69 +52,98 @@
       padding: 0 20px;
     }
 
-    .content h1 {
-      font-size: 3.2rem;
+    h1 {
+      font-size: 3.1rem;
       font-weight: 800;
       line-height: 1.25;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .content p {
+    p {
       font-size: 1.2rem;
       line-height: 1.6;
-      color: #e5e7eb;
-      margin-bottom: 60px;
+      color: #e5f9ee;
+      margin-bottom: 90px;
     }
 
-    /* 자동차 버튼 */
-    .car-wrapper {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .car-wrapper:hover {
-      transform: translateY(-6px);
-    }
-
+    /* 자동차 이미지 */
     .car {
-      font-size: 3.5rem;
-      background: white;
-      color: #2563eb;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
+      position: absolute;
+      bottom: 18%;
+      left: -220px;              /* 화면 밖에서 시작 */
+      width: 170px;              /* 자동차 크기 */
+      cursor: pointer;
+      animation: driveIn 1.8s ease-out forwards;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.35));
+      z-index: 3;
     }
 
-    .car-wrapper:hover .car {
-      background: #2563eb;
-      color: white;
+    .car:hover {
       transform: scale(1.08);
     }
 
-    .car-wrapper span {
+    /* 자동차 진입 애니메이션 */
+    @keyframes driveIn {
+      0% {
+        left: -220px;
+      }
+      70% {
+        left: 52%;
+      }
+      100% {
+        left: 50%;
+      }
+    }
+
+    /* 안내 문구 */
+    .start-text {
       font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: #dbeafe;
+      letter-spacing: 0.05em;
+      color: #d1fae5;
+      opacity: 0.9;
+    }
+
+    /* 번개 이펙트 */
+    .lightning {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.95),
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0)
+      );
+      opacity: 0;
+      z-index: 4;
+    }
+
+    .lightning.active {
+      animation: flash 0.6s ease;
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      40% { opacity: 0.3; }
+      60% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     /* 반응형 */
     @media (max-width: 768px) {
-      .content h1 {
+      h1 {
         font-size: 2.4rem;
       }
 
-      .content p {
+      p {
         font-size: 1.05rem;
+      }
+
+      .car {
+        width: 130px;
+        bottom: 16%;
       }
     }
   </style>
@@ -127,6 +153,7 @@
 
 <section class="hero">
   <div class="overlay"></div>
+  <div class="lightning" id="lightning"></div>
 
   <div class="content">
     <h1>
@@ -139,13 +166,34 @@
       전기차 전환의 지역별 차이
     </p>
 
-    <!-- 자동차 클릭 시 분석 페이지로 이동 -->
-    <div class="car-wrapper" onclick="location.href='/overview'">
-      <div class="car">🚗</div>
-      <span>분석 시작하기</span>
+    <div class="start-text">
+      자동차를 클릭해 분석을 시작하세요
     </div>
   </div>
+
+  <!-- 자동차 이미지 -->
+  <img
+    src="{{ url_for('static', filename='images/car.png') }}"
+    class="car"
+    id="car"
+    alt="전기차"
+  />
 </section>
+
+<script>
+  const car = document.getElementById('car');
+  const lightning = document.getElementById('lightning');
+
+  car.addEventListener('click', () => {
+    // 번개 효과
+    lightning.classList.add('active');
+
+    // 잠깐 후 base 구조 페이지로 이동
+    setTimeout(() => {
+      window.location.href = '/overview';
+    }, 500);
+  });
+</script>
 
 </body>
 </html>
