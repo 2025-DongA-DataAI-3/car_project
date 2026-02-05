@@ -1,40 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>광주광역시 전기차 정책 결론</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Pretendard", "Noto Sans KR", sans-serif;
+        background: #f5f7fb;
+        color: #222;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .summary-box {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        text-align: center;
+        line-height: 1.8;
+        margin-bottom: 60px;
+        font-size: 17px;
+    }
+
+    .card-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 70px;
+    }
+
+    .card-wrapper {
+        perspective: 1000px;
+    }
+
+    .card {
+        width: 100%;
+        height: 300px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease;
+        cursor: pointer;
+    }
+
+    .card.flip {
+        transform: rotateY(180deg);
+    }
+
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        padding: 28px;
+        box-sizing: border-box;
+        background: white;
+    }
+
+    .card-front h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .policy-tag {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #eef2ff;
+        color: #3f51b5;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .card-back {
+        transform: rotateY(180deg);
+        line-height: 1.7;
+        font-size: 15px;
+    }
+
+    .card-back ul {
+        padding-left: 18px;
+    }
+
+    .card-back li {
+        margin-bottom: 6px;
+    }
+
+    .final-summary {
+        background: #1f2937;
+        color: white;
+        padding: 40px;
+        border-radius: 18px;
+        line-height: 1.9;
+    }
+
+    .final-summary h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .final-summary p {
+        margin: 8px 0;
+        font-size: 17px;
+    }
+</style>
 </head>
+
 <body>
 
+<div class="container">
 
-{% extends "base.html" %}
-{% block content %}
+    <h1>광주광역시 전기차 정책 결론</h1>
 
-<h1>분석 결론</h1>
-<p class="subtitle">
-데이터 분석을 통해 도출한 정책 시사점입니다.
-</p>
+    <div class="summary-box">
+        광주광역시의 전기차 전환은 분명히 진행 중이지만, 그 효과와 부담은 자치구별로 동일하지 않다.<br>
+        따라서 전기차 정책은 ‘균등’이 아닌 <b>데이터 기반 구별 맞춤형 정책</b>으로 설계되어야 한다.
+    </div>
 
-<div class="card">
-    <h2>✔ 주요 인사이트</h2>
-    <ul>
-        <li>• 전기차 보급은 구별로 큰 차이를 보임</li>
-        <li>• 충전 인프라는 일부 지역에 집중</li>
-        <li>• 인구밀도·주거 유형과 보급률의 상관관계 존재</li>
-    </ul>
+    <div class="card-section">
+
+        <!-- 광산구 북구 -->
+        <div class="card-wrapper">
+            <div class="card" onclick="this.classList.toggle('flip')">
+
+                <div class="card-face card-front">
+                    <h2> 광산구 · 북구</h2>
+                    <p>
+                        전기차와 인구가 집중된 지역으로
+                        충전 인프라 부담이 높은 구조
+                    </p>
+                    <span class="policy-tag">인프라 집중 투자형</span>
+                </div>
+
+                <div class="card-face card-back">
+                    <h3>특징</h3>
+                    <ul>
+                        <li>전기차 절대 대수 많음</li>
+                        <li>인구 규모 큼</li>
+                        <li>전기차 1대당 충전기 수 낮음</li>
+                    </ul>
+
+                    <h3>필요 정책</h3>
+                    <ul>
+                        <li>아파트·대형 주거지 중심 급속충전기 확대</li>
+                        <li>전기차 수 기준 충전기 배분</li>
+                        <li>출퇴근 시간대 충전 대기 완화 정책</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 서구 남구 -->
+        <div class="card-wrapper">
+            <div class="card" onclick="this.classList.toggle('flip')">
+
+                <div class="card-face card-front">
+                    <h2>서구 · 남구</h2>
+                    <p>
+                        현재 보급 수준은 중간이지만
+                        향후 전환 속도가 빨라질 가능성이 높은 지역
+                    </p>
+                    <span class="policy-tag">보급 촉진형</span>
+                </div>
+
+                <div class="card-face card-back">
+                    <h3>특징</h3>
+                    <ul>
+                        <li>전기차 보급 중간 수준</li>
+                        <li>30~50대 인구 비중 높음</li>
+                        <li>향후 보급 증가 가능성 큼</li>
+                    </ul>
+
+                    <h3>필요 정책</h3>
+                    <ul>
+                        <li>생애 첫 전기차 구매 인센티브</li>
+                        <li>공공시설 연계 충전기 확충</li>
+                        <li>법인·업무용 차량 전환 유도</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 동구 -->
+        <div class="card-wrapper">
+            <div class="card" onclick="this.classList.toggle('flip')">
+
+                <div class="card-face card-front">
+                    <h2>동구</h2>
+                    <p>
+                        전기차 수는 적지만
+                        인프라는 상대적으로 여유 있는 구조
+                    </p>
+                    <span class="policy-tag">접근성 · 공공 중심형</span>
+                </div>
+
+                <div class="card-face card-back">
+                    <h3>특징</h3>
+                    <ul>
+                        <li>전기차 수 가장 적음</li>
+                        <li>전기차 1대당 충전기 수 가장 높음</li>
+                        <li>고령층·저밀도 주거 구조</li>
+                    </ul>
+
+                    <h3>필요 정책</h3>
+                    <ul>
+                        <li>공유 전기차 및 공공 전기차 확대</li>
+                        <li>공공기관 중심 전기차 전환</li>
+                        <li>고령층 대상 이용 지원 정책</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="final-summary">
+        <h3>핵심 정리</h3>
+        <p>광산·북구: 전기차가 많으니 충전 인프라를 먼저</p>
+        <p>서구·남구: 전환 여지가 크니 보급을 더 빠르게</p>
+        <p>동구: 시장보다 공공이 먼저</p>
+        <br>
+        <p>
+            전기차 전환은 이미 시작되었다.<br>
+            이제 중요한 것은 ‘얼마나 많이 지원하느냐’가 아니라
+            ‘어디에, 어떻게 다르게 지원하느냐’이다.
+        </p>
+    </div>
+
 </div>
-
-<div class="card">
-    <h2>📢 정책 제안</h2>
-    <p>
-        전기차 정책은 일괄 지원이 아닌
-        <strong>구별 맞춤형 인프라·보조금 정책</strong>이 필요합니다.
-    </p>
-</div>
-
-{% endblock %}
-
 
 </body>
 </html>
