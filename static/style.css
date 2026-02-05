@@ -202,102 +202,97 @@ h1 {
 
 /* ===== conclusion 카드 영역 ===== */
 
+/* 컨테이너 설정 */
 .conclusion-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin: 30px 0 60px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    perspective: 1000px; /* 3D 효과를 위한 설정 */
 }
 
 .conclusion-card-wrapper {
-    perspective: 1000px;
-}
-
-.conclusion-card {
-    position: relative;
-    height: 300px;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
+    width: 320px;
+    height: 420px;
     cursor: pointer;
 }
 
+/* 카드 본체 */
+.conclusion-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* 클릭 시 뒤집힘 */
 .conclusion-card.flip {
     transform: rotateY(180deg);
 }
 
+/* 앞면 & 뒷면 공통 디자인 */
 .conclusion-card-face {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
-}
-
-.conclusion-card-back {
-    transform: rotateY(180deg);
-}
-
-/* 기존 초록톤과 맞추기 */
-.policy-badge {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 6px 12px;
+    backface-visibility: hidden; /* 뒤집었을 때 뒷면이 안 보이게 */
     border-radius: 20px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: 600;
-    font-size: 13px;
+    padding: 30px; /* 양옆 상하 여백 동일하게 설정 */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 내용 배치를 균형 있게 */
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* 마지막 핵심 정리 */
-.conclusion-final {
-    margin-top: 20px;
+/* 앞면 디자인 (색상 포인트) */
+.conclusion-card-face:not(.conclusion-card-back) {
+    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+    background-image: radial-gradient(at 0% 0%, rgba(94, 158, 255, 0.1) 0, transparent 50%);
 }
 
-/* ===== conclusion flip card ===== */
-
-.conclusion-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin: 30px 0 60px;
-}
-
-.conclusion-card-wrapper {
-    perspective: 1000px;
-}
-
-.conclusion-card {
-    position: relative;
-    height: 320px;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease;
-    cursor: pointer;
-}
-
-.conclusion-card.flip {
-    transform: rotateY(180deg);
-}
-
-.conclusion-card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-}
-
-/* 뒷면 */
+/* 뒷면 디자인 (뒤집힌 상태) */
 .conclusion-card-back {
+    background: #ffffff;
     transform: rotateY(180deg);
+    text-align: left; /* 뒷면 텍스트는 가독성을 위해 좌측 정렬 */
+    justify-content: flex-start; /* 위에서부터 차곡차곡 */
 }
 
-/* 기존 초록톤 유지 */
+/* 텍스트 요소들 */
+.conclusion-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.conclusion-card-back h3 {
+    font-size: 1.1rem;
+    color: #007bff;
+    margin-bottom: 10px;
+    border-left: 4px solid #007bff;
+    padding-left: 10px;
+}
+
+.conclusion-card ul {
+    padding-left: 20px;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* 하단 뱃지 스타일 */
 .policy-badge {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-weight: 600;
-    font-size: 13px;
+    background: #007bff;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: auto;
 }
