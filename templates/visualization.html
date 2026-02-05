@@ -80,146 +80,166 @@
 
 {% block content %}
 <style>
-    /* 화면 좌우 분할 컨테이너 */
-    .analysis-container {
+    /* 메인 컨테이너: 좌우 분할 */
+    .viz-container {
         display: flex;
-        gap: 25px;
-        max-width: 1400px;
+        gap: 30px;
+        max-width: 1600px;
         margin: 20px auto;
         align-items: flex-start;
+        padding: 0 20px;
     }
 
-    /* 왼쪽: 카드 목록 사이드바 (너비 고정) */
-    .side-menu {
-        flex: 0 0 380px; 
+    /* 왼쪽 사이드바: 카드 리스트 */
+    .viz-sidebar {
+        flex: 0 0 420px;
+        position: sticky;
+        top: 20px;
     }
 
-    /* 오른쪽: 그래프 표시 영역 (나머지 공간 전부) */
-    .content-display {
+    /* 오른쪽: 상세 리포트 출력 영역 */
+    .viz-display {
         flex: 1;
         background: #ffffff;
+        border: 1px solid #e1e4e8;
         border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        min-height: 850px;
-        position: sticky; /* 스크롤 시 따라오도록 설정 */
-        top: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        height: 850px;
         overflow: hidden;
     }
 
-    /* iframe: 실제 그래프가 그려진 html을 불러오는 창 */
-    #display_area {
+    #graph_frame {
         width: 100%;
-        height: 850px;
+        height: 100%;
         border: none;
     }
 
-    /* 카드 리스트 세로 정렬 */
+    /* 카드 리스트 스타일 */
     .card-list {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
     }
 
-    /* 개별 카드 스타일 조정 */
     .toc-card {
-        background: #ffffff;
+        background: #fff;
         border: 1px solid #e1e4e8;
         border-radius: 10px;
-        padding: 15px 20px;
+        padding: 16px;
         display: flex;
         align-items: center;
-        transition: all 0.3s ease;
         cursor: pointer;
+        transition: all 0.2s ease-in-out;
     }
 
     .toc-card:hover {
-        transform: translateX(10px); /* 오른쪽으로 살짝 이동하는 효과 */
+        background: #f8fbff;
         border-color: #007bff;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transform: translateX(8px);
+    }
+
+    .toc-card.active {
+        border-left: 6px solid #007bff;
+        background: #f0f7ff;
+        border-color: #007bff;
     }
 
     .toc-icon {
         width: 35px;
         height: 35px;
         margin-right: 15px;
+        border-radius: 4px;
         object-fit: cover;
-        border-radius: 5px;
     }
 
-    .card-link-text {
-        text-decoration: none;
-        color: #444;
+    .card-text {
         font-size: 14.5px;
-        font-weight: 500;
-        pointer-events: none; /* 카드 전체 클릭을 위해 텍스트 클릭 무시 */
+        font-weight: 600;
+        color: #444;
+        line-height: 1.4;
     }
 
-    .section-box { margin: 0; padding: 20px; }
+    .section-box {
+        margin: 0;
+        padding: 25px;
+        background: #fff;
+        border-radius: 15px;
+    }
 </style>
 
-<h1 class="page-title">광주광역시 전기차 보급 구조 분석</h1>
+<h1 class="page-title">광주광역시 전기차 보급 구조 시각화 분석</h1>
 
-<div class="analysis-container">
-    
-    <div class="side-menu">
+<div class="viz-container">
+    <div class="viz-sidebar">
         <div class="section-box">
-            <h3 class="section-title">데이터 목록</h3>
+            <h3 class="section-title">데이터 분석 목록</h3>
             <div class="card-list">
                 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart1'">
+                <div class="toc-card" onclick="loadGraph('/graphs/1. 광주광역시 자동차 총 등록대수 연간 증가량 추이.html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">광주광역시 자동차 총 등록대수 연간 증가 추이</span>
+                    <span class="card-text">자동차 총 등록대수 연간 증가량 추이</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart2'">
+                <div class="toc-card" onclick="loadGraph('/graphs/2. 광주광역시 연료 타입별 비중 변화 추이 (2020~2025).html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">광주광역시 연도별 연료타입 점유율 변화</span>
+                    <span class="card-text">연료 타입별 비중 변화 추이</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart3'">
+                <div class="toc-card" onclick="loadGraph('/graphs/3. 구별 전기차 보급 수준 (정규화).html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">광주광역시 연료 타입별 비중 변화 추이</span>
+                    <span class="card-text">구별 전기차 보급 수준 (정규화)</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart4'">
+                <div class="toc-card" onclick="loadGraph('/graphs/4. 2025년 광주 자치구별 30~50대 비중.html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">구별 전기차 보급 수준 (정규화)</span>
+                    <span class="card-text">자치구별 30~50대 인구 비중</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart5'">
+                <div class="toc-card" onclick="loadGraph('/graphs/5. 광주광역시 보조금 변화와 전기차 보급 상승량 추이 (2021~2025).html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">2025년 구별 30~50대 비중 / 전기차 보급률</span>
+                    <span class="card-text">보조금 변화와 보급 상승량 추이</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart6'">
+                <div class="toc-card" onclick="loadGraph('/graphs/6. 구별 인구수 × 전기차 보급률 (2025).html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">보조금 변화와 전기차 보급 상승량 추이</span>
+                    <span class="card-text">구별 인구수 × 전기차 보급률</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart7'">
+                <div class="toc-card" onclick="loadGraph('/graphs/7. 광주광역시 구별 전기차 수에 따른 충전기 수 현황.html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">구별 인구수 × 전기차 보급률</span>
+                    <span class="card-text">구별 전기차 대비 충전기 현황</span>
                 </div>
 
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart8'">
+                <div class="toc-card" onclick="loadGraph('/graphs/8. 구별 전기차 1대당 충전기 수 (2025).html', this)">
                     <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">구별 전기차 수 대비 충전기 수 현황</span>
+                    <span class="card-text">전기차 1대당 충전기 수 (2025)</span>
                 </div>
-
-                <div class="toc-card" onclick="document.getElementById('display_area').src='{{ url_for('visualization') }}#chart9'">
-                    <img src="{{ url_for('static', filename='dictionary.jpg') }}" class="toc-icon">
-                    <span class="card-link-text">전기차 1대당 충전기 수 (2025)</span>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <div class="content-display">
-        <iframe id="display_area" name="display_area" src="" frameborder="0"></iframe>
+    <div class="viz-display">
+        <iframe id="graph_frame" name="graph_frame" src="" frameborder="0"></iframe>
     </div>
-
 </div>
+
+<script>
+    // 리포트 로딩 및 활성화 효과 함수
+    function loadGraph(url, element) {
+        document.getElementById('graph_frame').src = url;
+        
+        // 모든 카드에서 active 제거 후 현재 클릭된 카드에만 추가
+        const cards = document.querySelectorAll('.toc-card');
+        cards.forEach(card => card.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    // 초기 실행: 첫 번째 리포트를 자동으로 띄움
+    window.onload = function() {
+        const firstCard = document.querySelector('.toc-card');
+        if(firstCard) firstCard.click();
+    };
+</script>
 {% endblock %}
 </body>
 </html>
