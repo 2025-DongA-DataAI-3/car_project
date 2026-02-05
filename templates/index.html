@@ -2,57 +2,73 @@
 
 {% block content %} 
 <style>
-    /* 상속 구조에서는 body 전체 스타일보다 컨테이너 위주의 스타일을 권장합니다 */
     .project-container { 
-        max-width: 800px; 
-        margin: 40px auto; 
-        background: white; 
-        padding: 40px; 
-        border-radius: 15px; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        line-height: 1.6; 
-        color: #333; 
+        max-width: 900px; margin: 20px auto; background: white; 
+        padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        line-height: 1.6; color: #333; 
     }
-    .project-container h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; font-size: 2rem; }
-    .project-container h2 { color: #444; margin-top: 30px; display: flex; align-items: center; font-size: 1.5rem; }
-    .project-container h3 { color: #1a73e8; background: #e8f0fe; padding: 5px 15px; border-radius: 5px; display: inline-block; font-size: 1.1rem; }
-    .project-container ul { list-style: none; padding-left: 0; }
-    .project-container li { margin-bottom: 12px; padding-left: 25px; position: relative; }
-    .project-container li::before { content: "✔"; position: absolute; left: 0; color: #2d8a4e; font-weight: bold; }
-    .highlight { font-weight: bold; color: #d93025; }
-    .info-box { background: #f1f8e9; border-left: 5px solid #8bc34a; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+    .project-container h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; }
+    
+    /* 타임라인 스타일 */
+    .timeline { border-left: 3px solid #e8f0fe; padding-left: 20px; margin: 20px 0; }
+    .timeline-item { margin-bottom: 15px; position: relative; }
+    .timeline-item::before { 
+        content: ''; position: absolute; left: -27px; top: 5px; 
+        width: 12px; height: 12px; background: #1a73e8; border-radius: 50%; 
+    }
+    .timeline-title { font-weight: bold; color: #1a73e8; }
+
+    /* 카드형 지표 스타일 */
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+    .metric-card { background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
+    .metric-card strong { color: #2d8a4e; display: block; margin-bottom: 5px; }
+
+    .info-box { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; border-radius: 5px; margin: 20px 0; }
 </style>
 
 <div class="project-container">
-    <h1>🚗 광주광역시 전기차 보급 활성화 프로젝트</h1>
+    <h1>⚡ 번개맨: 광주 전기차 전환 전략 분석</h1>
 
-    <h2>📌 1. 배경 및 목적</h2>
-    
-    <h3>환경 및 사회적 필요</h3>
-    <ul>
-        <li>광주광역시는 미세먼지 저감과 <span class="highlight">2045 탄소중립 실현</span>을 정책 목표로 설정하고 있습니다.</li>
-        <li>전기차 보급 확대를 핵심 수단으로 삼아 대기질 개선에 앞장섭니다.</li>
-        <li>내연차를 전기차로 전환할 경우 <span class="highlight">추가 보조금 및 인센티브</span>를 지원하여 빠른 전환을 촉진합니다.</li>
-    </ul>
-
-    <div class="info-box">
-        <strong>💡 탄소중립(Net-Zero)이란?</strong><br>
-        지구 가계부를 쓴다고 생각하면 쉽습니다. 탄소 배출(지출)과 친환경 에너지 활용을 통한 흡수(수입)를 똑같이 맞춰 <strong>최종 합계를 '0'</strong>으로 만드는 것입니다.
+    <h2>📅 프로젝트 분석 로드맵</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-title">Phase 1. 데이터 수집</div>
+            <div>광주광역시 자동차 등록 현황 및 충전 인프라 위치 데이터 확보</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Phase 2. 상관분석</div>
+            <div>거주 인구 및 노후 차량 밀집 지역과 전기차 보급률 비교 분석</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-title">Phase 3. 정책 제언</div>
+            <div>2045 탄소중립 실현을 위한 최적의 충전소 입지 제안</div>
+        </div>
     </div>
 
-    <h3>지역 경제 및 산업적 배경</h3>
-    <ul>
-        <li>광주 내 <strong>이차전지 산업</strong> 및 친환경 모빌리티 기술 육성을 위해 산·학·연 협력 체계를 강화하고 있습니다.</li>
-    </ul>
+    <h2>🔍 우리가 집중하는 핵심 지표 (KPI)</h2>
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <strong>📍 충전 편의성 Index</strong>
+            거주 인구 대비 충전기 대수 비율 분석
+        </div>
+        <div class="metric-card">
+            <strong>💨 배출량 감소 시뮬레이션</strong>
+            내연차 전환 시 기대되는 미세먼지 감축량
+        </div>
+        <div class="metric-card">
+            <strong>💰 정책 효율성</strong>
+            보조금 지급 금액 대비 전환 속도 상관관계
+        </div>
+        <div class="metric-card">
+            <strong>🚗 미래 수요 예측</strong>
+            지역별 향후 5년 내 전기차 증가 추이
+        </div>
+    </div>
 
-    <h2>📌 2. 주요 목표 및 효과</h2>
-    
-    <h3>경제적·사회적 효과</h3>
-    <ul>
-        <li>충전 인프라 및 서비스 산업 확장을 통한 <strong>지역 일자리 창출</strong></li>
-        <li>청년층·저소득층의 전기차 접근성 향상 및 보편적 이동권 확보</li>
-        <li>기후변화 대응을 통한 <strong>지속 가능한 도시 모델</strong> 구축</li>
-    </ul>
+    <div class="info-box">
+        <strong>🎯 번개맨 팀의 목표</strong><br>
+        데이터를 통해 광주광역시의 탄소중립 가계부가 <strong>지출(탄소)보다 수익(환경)</strong>이 더 큰 스마트 시티가 될 수 있도록 과학적인 근거를 제시합니다.
+    </div>
 </div>
 {% endblock %}
 </body>
