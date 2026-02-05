@@ -1,11 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>광주광역시 전기차 전환</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
 <body>
-  <section class="hero">
-    <h1>전기차 정책, 모두에게 같아야 할까?</h1>
-    <p>광주광역시 데이터를 통해 살펴본 전기차 전환의 지역별 차이</p>
 
-    <div class="car" onclick="location.href='analysis.html'">
-      🚗
-      <span>클릭해서 시작하기</span>
-    </div>
-  </section>
+<section class="hero">
+  <h1>
+    전기차 정책,<br>
+    모두에게 같아야 할까?
+  </h1>
+
+  <p>
+    광주광역시 데이터를 통해 살펴본<br>
+    전기차 전환의 지역별 차이
+  </p>
+
+  <!-- 자동차 클릭 시 개요 페이지로 이동 -->
+  <div class="car" onclick="location.href='/overview'">
+    🚗
+    <span>분석 시작하기</span>
+  </div>
+</section>
+
 </body>
+</html>
