@@ -19,114 +19,140 @@
       color: white;
     }
 
+    /* ===============================
+       메인 영역
+    =============================== */
     .hero {
       position: relative;
+      width: 100%;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at center,
-        rgba(255,255,255,0.08),
-        rgba(0,0,0,0.6)
-      );
-    }
-
+    /* 텍스트 영역 (위쪽 배치) */
     .content {
-      position: relative;
-      z-index: 2;
+      position: absolute;
+      top: 18%;
+      width: 100%;
       text-align: center;
-      max-width: 720px;
+      z-index: 3;
       padding: 0 20px;
     }
 
     h1 {
-      font-size: 3.1rem;
+      font-size: 3.2rem;
       font-weight: 800;
       line-height: 1.25;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       line-height: 1.6;
-      color: #e5f9ee;
-      margin-bottom: 90px;
+      color: #eafff3;
     }
 
     .start-text {
+      margin-top: 24px;
       font-size: 1rem;
       letter-spacing: 0.05em;
-      color: #d1fae5;
       opacity: 0.9;
+      color: #d1fae5;
     }
 
-    /* 🚗 자동차 */
-    .car {
+    /* ===============================
+       자동차 영역
+    =============================== */
+    .car-wrapper {
       position: absolute;
-      bottom: 18%;
-      right: -240px;                 /* 오른쪽 밖에서 시작 */
-      width: 170px;
+      bottom: 12%;
+      right: -500px;
+      width: 360px;   /* 🔥 자동차 크게 */
       cursor: pointer;
-      animation: driveIn 1.8s ease-out forwards;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.35));
-      z-index: 3;
+      animation: driveIn 2s ease-out forwards;
+      z-index: 5;
     }
 
-    .car:hover {
-      transform: scale(1.08);
+    .car-wrapper:hover {
+      transform: scale(1.05);
+    }
+
+    .car {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.4));
     }
 
     @keyframes driveIn {
       0% {
-        right: -240px;
+        right: -500px;
       }
       70% {
-        right: 50%;
+        right: 55%;
       }
       100% {
         right: 50%;
-        transform: translateX(50%);
       }
     }
 
-    /* ⚡ 번개 */
-    .lightning {
+    /* ===============================
+       번개 이펙트
+    =============================== */
+    .lightning-container {
       position: absolute;
-      inset: 0;
+      inset: -60px;
       pointer-events: none;
-      background: radial-gradient(
-        circle at center,
-        rgba(255,255,255,0.9),
-        rgba(255,255,255,0.4),
+      opacity: 0;
+    }
+
+    .lightning-container.active {
+      opacity: 1;
+    }
+
+    .bolt {
+      position: absolute;
+      width: 6px;
+      height: 80px;
+      background: linear-gradient(
+        to bottom,
+        #ffffff,
+        #bbf7d0,
         rgba(255,255,255,0)
       );
-      opacity: 0;
-      z-index: 4;
+      border-radius: 3px;
+      animation: boltFlash 0.4s ease-out forwards;
     }
 
-    .lightning.active {
-      animation: flash 0.6s ease;
+    @keyframes boltFlash {
+      0% {
+        opacity: 0;
+        transform: scaleY(0.2);
+      }
+      30% {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scaleY(0.1);
+      }
     }
 
-    @keyframes flash {
-      0% { opacity: 0; }
-      20% { opacity: 1; }
-      40% { opacity: 0.2; }
-      60% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
+    /* ===============================
+       반응형
+    =============================== */
     @media (max-width: 768px) {
-      h1 { font-size: 2.4rem; }
-      p { font-size: 1.05rem; }
-      .car { width: 130px; bottom: 16%; }
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      p {
+        font-size: 1.05rem;
+      }
+
+      .car-wrapper {
+        width: 260px;
+        bottom: 10%;
+      }
     }
   </style>
 </head>
@@ -134,9 +160,8 @@
 <body>
 
 <section class="hero">
-  <div class="overlay"></div>
-  <div class="lightning" id="lightning"></div>
 
+  <!-- 텍스트 -->
   <div class="content">
     <h1>
       전기차 정책,<br>
@@ -153,24 +178,49 @@
     </div>
   </div>
 
-  <img
-    src="{{ url_for('static', filename='car.png') }}"
-    class="car"
-    id="car"
-    alt="전기차"
-  />
+  <!-- 자동차 + 번개 -->
+  <div class="car-wrapper" id="carWrapper">
+    <img
+      src="{{ url_for('static', filename='car.png') }}"
+      alt="전기차"
+      class="car"
+    />
+    <div class="lightning-container" id="lightning"></div>
+  </div>
+
 </section>
 
 <script>
-  const car = document.getElementById('car');
+  const carWrapper = document.getElementById('carWrapper');
   const lightning = document.getElementById('lightning');
 
-  car.addEventListener('click', () => {
+  function createLightning() {
+    lightning.innerHTML = '';
     lightning.classList.add('active');
+
+    for (let i = 0; i < 7; i++) {
+      const bolt = document.createElement('div');
+      bolt.classList.add('bolt');
+
+      bolt.style.left = Math.random() * 100 + '%';
+      bolt.style.top = Math.random() * 80 + '%';
+      bolt.style.animationDelay = (Math.random() * 0.15) + 's';
+
+      lightning.appendChild(bolt);
+    }
+
+    setTimeout(() => {
+      lightning.classList.remove('active');
+      lightning.innerHTML = '';
+    }, 500);
+  }
+
+  carWrapper.addEventListener('click', () => {
+    createLightning();
 
     setTimeout(() => {
       window.location.href = '/overview';
-    }, 500);
+    }, 600);
   });
 </script>
 
