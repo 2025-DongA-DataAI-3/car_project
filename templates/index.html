@@ -1,24 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-    <title>광주광역시 탄소중립 프로젝트</title>
-    <style>
-        body { font-family: 'Pretendard', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; }
-        h2 { color: #444; margin-top: 30px; display: flex; align-items: center; }
-        h3 { color: #1a73e8; background: #e8f0fe; padding: 5px 15px; border-radius: 5px; display: inline-block; }
-        ul { list-style: none; padding-left: 0; }
-        li { margin-bottom: 12px; padding-left: 25px; position: relative; }
-        li::before { content: "✔"; position: absolute; left: 0; color: #2d8a4e; font-weight: bold; }
-        .highlight { font-weight: bold; color: #d93025; }
-        .info-box { background: #f1f8e9; border-left: 5px solid #8bc34a; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0; }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-<div class="container">
+{% block content %} 
+<style>
+    /* 상속 구조에서는 body 전체 스타일보다 컨테이너 위주의 스타일을 권장합니다 */
+    .project-container { 
+        max-width: 800px; 
+        margin: 40px auto; 
+        background: white; 
+        padding: 40px; 
+        border-radius: 15px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        line-height: 1.6; 
+        color: #333; 
+    }
+    .project-container h1 { color: #2d8a4e; border-bottom: 3px solid #2d8a4e; padding-bottom: 10px; font-size: 2rem; }
+    .project-container h2 { color: #444; margin-top: 30px; display: flex; align-items: center; font-size: 1.5rem; }
+    .project-container h3 { color: #1a73e8; background: #e8f0fe; padding: 5px 15px; border-radius: 5px; display: inline-block; font-size: 1.1rem; }
+    .project-container ul { list-style: none; padding-left: 0; }
+    .project-container li { margin-bottom: 12px; padding-left: 25px; position: relative; }
+    .project-container li::before { content: "✔"; position: absolute; left: 0; color: #2d8a4e; font-weight: bold; }
+    .highlight { font-weight: bold; color: #d93025; }
+    .info-box { background: #f1f8e9; border-left: 5px solid #8bc34a; padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+</style>
+
+<div class="project-container">
     <h1>🚗 광주광역시 전기차 보급 활성화 프로젝트</h1>
 
     <h2>📌 1. 배경 및 목적</h2>
@@ -49,7 +54,6 @@
         <li>기후변화 대응을 통한 <strong>지속 가능한 도시 모델</strong> 구축</li>
     </ul>
 </div>
-
 {% endblock %}
 </body>
 </html>
