@@ -1,38 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-
-<{% extends "base.html" %}
 {% block content %}
+<style>
+    .analysis-container { 
+        max-width: 900px; margin: 30px auto; line-height: 1.8; color: #333; 
+    }
+    .section-card { 
+        background: white; padding: 35px; border-radius: 15px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07); margin-bottom: 30px; 
+    }
+    .section-title { 
+        color: #2d8a4e; font-size: 1.6rem; border-bottom: 2px solid #e9ecef; 
+        padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center;
+    }
+    .section-title span { margin-right: 10px; }
 
-<h1>분석 목적</h1>
-<p class="subtitle">
-광주광역시 전기차 보급과 정책 효과를 데이터 기반으로 분석합니다.
-</p>
+    /* 탄소중립 비유 박스 */
+    .net-zero-box { 
+        background: #f8f9fa; border-left: 5px solid #2d8a4e; padding: 20px; 
+        margin: 15px 0; border-radius: 0 10px 10px 0;
+    }
+    
+    /* 추가된 구체적 목적 스타일 */
+    .detail-goals { 
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+        gap: 20px; margin-top: 20px; 
+    }
+    .goal-item { 
+        background: #f1f8e9; padding: 20px; border-radius: 10px; 
+        border: 1px solid #dcedc8; 
+    }
+    .goal-item strong { color: #388e3c; display: block; margin-bottom: 8px; font-size: 1.1rem; }
+    
+    .highlight { color: #2d8a4e; font-weight: bold; }
+</style>
 
-<div class="card">
-    <h2>📌 분석 배경</h2>
-    <p>
-        전기차 보급 확대에도 불구하고 충전 인프라와 정책 효과는
-        자치구별로 차이를 보이고 있습니다.
-    </p>
+<div class="analysis-container">
+    
+    <section class="section-card">
+        <div class="section-title"><span>🌿</span> 1. 환경 및 사회적 필요</div>
+        <p>
+            <strong>대기질 개선 및 탄소중립 목표</strong><br>
+            광주광역시는 미세먼지 저감과 <span class="highlight">2045 탄소중립 실현</span>을 정책 목표로 설정하고 있으며, 전기차 보급 확대를 핵심 수단으로 삼고 있습니다. 
+            기존 내연기관 차량 감소 정책과 연계하여 전환 시 추가 보조금을 지급하는 등 실질적인 인센티브를 제공하고 있습니다.
+        </p>
+        
+        <div class="net-zero-box">
+            <strong>💡 탄소중립(Net-Zero)이란?</strong><br>
+            가계부를 쓸 때 <strong>지출(탄소 발생)</strong>과 <strong>수입(친환경 에너지를 통한 감축)</strong>의 합계를 
+            <strong>'0'</strong>으로 수렴하게 만드는 상태를 의미합니다.
+        </div>
+    </section>
+
+    <section class="section-card">
+        <div class="section-title"><span>🏭</span> 2. 지역 경제 및 산업적 배경</div>
+        <p>
+            광주광역시는 <strong>이차전지 산업 및 친환경 모빌리티 기술 육성</strong>을 위해 관련 기업, 연구기관과 긴밀한 협력 네트워크를 구축하고 있습니다. 
+            단순한 차량 보급을 넘어 지역 경제의 신성장 동력으로 친환경 자동차 산업을 지원합니다.
+        </p>
+    </section>
+
+    <section class="section-card">
+        <div class="section-title"><span>🎯</span> 3. 데이터 분석의 세부 목적</div>
+        <p>본 프로젝트는 위 배경을 바탕으로 다음과 같은 <strong>데이터 기반의 해답</strong>을 찾고자 합니다.</p>
+        
+        <div class="detail-goals">
+            <div class="goal-item">
+                <strong>📍 인프라 배치 효율성 진단</strong>
+                인구 밀집 지역과 실제 충전소 위치 데이터를 결합하여, 현재 충전 인프라가 수요에 맞게 최적화되어 있는지 분석합니다.
+            </div>
+            <div class="goal-item">
+                <strong>📊 보조금 정책의 상관성 확인</strong>
+                연도별 보조금 지급 규모 변화와 전기차 신규 등록 대수 사이의 상관관계를 분석하여 정책의 실효성을 검증합니다.
+            </div>
+            <div class="goal-item">
+                <strong>🔮 미래 전환 수요 예측</strong>
+                현재 광주의 내연기관차 연료 유형 데이터를 분석하여, 향후 5년 내 전기차로의 전환 잠재력이 가장 높은 지역을 예측합니다.
+            </div>
+        </div>
+    </section>
+
 </div>
-
-<div class="card">
-    <h2>🎯 분석 목표</h2>
-    <ul>
-        <li>• 구별 전기차 보급 격차 확인</li>
-        <li>• 충전소 대비 전기차 수 분석</li>
-        <li>• 인구·주거 특성과의 관계 파악</li>
-    </ul>
-</div>
-
 {% endblock %}
-</body>
-</html>
