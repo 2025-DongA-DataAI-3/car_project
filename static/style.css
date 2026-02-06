@@ -34,6 +34,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
 
+    padding-bottom: 120px;
+
 }
 
 .sidebar h2 {
