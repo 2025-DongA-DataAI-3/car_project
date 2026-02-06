@@ -2,6 +2,10 @@ html, body {
     height: 100%;
 }
 
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
 * {
     margin: 0;
     padding: 0;
@@ -20,6 +24,11 @@ body {
     align-items: stretch;
 }
 
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
 .sidebar {
     width: 240px;
     background: linear-gradient(120deg, #0b3d2e, #0f172a);
@@ -30,7 +39,6 @@ body {
     flex-direction: column;
     justify-content: space-between;
 
-    min-height: 100vh;
 }
 
 .sidebar h2 {
