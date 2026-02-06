@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>구별 전기차 1대당 충전기 수</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- 데이터 라벨 플러그인 -->
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
   <style>
@@ -14,73 +12,118 @@
       font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background-color: #f9fafb;
       padding: 40px;
+      color: #1f2937;
+    }
+
+    .chart-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 타이틀 디자인: 크고 진하게 */
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 30px;
+      letter-spacing: -0.5px;
     }
 
     .chart-container {
-      max-width: 900px;
+      position: relative;
       height: 420px;
-      margin: 0 auto;
+      width: 100%;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    /* 범례 */
-    .legend {
+    /* 하단 커스텀 범례 */
+    .custom-legend {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #374151;
+      gap: 24px;
+      margin-top: 25px;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
-    .legend-box {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
+    .legend-box { width: 14px; height: 14px; border-radius: 3px; }
+    .bg-green { background-color: #22c55e; }
+    .bg-orange { background-color: #f97316; }
+
+    /* 최종 인사이트 박스 디자인 (Amber/Orange Gradient) */
+    .insight-box {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 25px;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border-left: 6px solid #f59e0b;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .high {
-      background-color: #22c55e;
+    .insight-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 19px;
+      font-weight: bold;
+      color: #92400e;
+      margin-bottom: 12px;
     }
 
-    .low {
-      background-color: #f97316;
+    .insight-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #78350f;
+      word-break: keep-all;
     }
   </style>
 </head>
 <body>
 
+<div class="chart-wrapper">
+  <h2>광주 자치구별 전기차 1대당 충전기 수 (2025년)</h2>
+  
   <div class="chart-container">
-    <h2>구별 전기차 1대당 충전기 수 (2025년)</h2>
     <canvas id="chargerRatioChart"></canvas>
+  </div>
 
-    <div class="legend">
-      <div class="legend-item">
-        <span class="legend-box high"></span>
-        <span>상대적으로 높은 충전기 비율</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-box low"></span>
-        <span>상대적으로 낮은 충전기 비율</span>
-      </div>
+  <div class="custom-legend">
+    <div class="legend-item">
+      <div class="legend-box bg-green"></div>
+      <span>상대적으로 양호</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-box bg-orange"></div>
+      <span>인프라 확충 필요</span>
     </div>
   </div>
-  <br><br><br><hr><div>🧠 최종 인사이트 (결론)<br>
-전기차 1대당 충전기 수를 기준으로 보면,
-광주광역시 내 자치구 간 전기차 이용 환경에는
-명확한 불균형이 존재한다.</div>
-  <script>
-    const ctx = document.getElementById('chargerRatioChart');
+</div>
+
+<div class="insight-box">
+  <div class="insight-title">💡 데이터 분석 결과 (최종)</div>
+  <div class="insight-content">
+    전기차 1대당 충전기 수를 기준으로 분석한 결과, <strong>광주광역시 내 자치구 간 전기차 이용 환경에는 명확한 불균형이 존재함</strong>을 확인하였습니다. <br>
+    동구와 서구는 비교적 양호한 비율을 보이나, 전기차 수가 압도적으로 많은 <strong>북구와 광산구의 경우 1대당 충전기 수가 상대적으로 낮아</strong> 향후 집중적인 인프라 확충이 시급할 것으로 판단됩니다.
+  </div>
+</div>
+
+<script>
+  // 라이브러리 로드 후 안전하게 실행
+  window.onload = function() {
+    Chart.register(ChartDataLabels);
+
+    const ctx = document.getElementById('chargerRatioChart').getContext('2d');
 
     new Chart(ctx, {
       type: 'bar',
@@ -90,17 +133,18 @@
           label: '전기차 1대당 충전기 수',
           data: [0.875274, 0.688215, 0.687636, 0.634541, 0.673099],
           backgroundColor: [
-            '#22c55e',
-            '#22c55e',
-            '#f97316',
-            '#f97316',
-            '#f97316'
+            '#22c55e', // 동구
+            '#22c55e', // 서구
+            '#f97316', // 남구
+            '#f97316', // 북구
+            '#f97316'  // 광산구
           ],
-          borderRadius: 6
+          borderRadius: 8,
+          barPercentage: 0.7
         }]
       },
       options: {
-        indexAxis: 'y',
+        indexAxis: 'y', // 가로 막대 그래프
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -108,44 +152,36 @@
           datalabels: {
             anchor: 'end',
             align: 'right',
+            offset: 10,
             formatter: value => value.toFixed(3),
             color: '#1f2937',
             font: {
+              size: 13,
               weight: 'bold'
             }
           },
           tooltip: {
+            padding: 12,
             callbacks: {
-              label: ctx => ctx.raw.toFixed(3)
+              label: ctx => ` 충전기 비율: ${ctx.raw.toFixed(4)}`
             }
           }
         },
         scales: {
           x: {
-            title: {
-              display: true,
-              text: '전기차 1대당 충전기 수',
-              font: { weight: 'bold' }
-            },
-            grid: {
-              color: '#e5e7eb'
-            }
+            title: { display: true, text: '전기차 1대당 충전기 수 (개)', font: { weight: 'bold' } },
+            grid: { color: '#f3f4f6' },
+            max: 1.0 // 가독성을 위해 최대값 고정
           },
           y: {
-            title: {
-              display: true,
-              text: '자치구',
-              font: { weight: 'bold' }
-            },
-            grid: {
-              display: false
-            }
+            grid: { display: false },
+            ticks: { font: { weight: 'bold', size: 14 } }
           }
         }
-      },
-      plugins: [ChartDataLabels]
+      }
     });
-  </script>
+  };
+</script>
 
 </body>
 </html>

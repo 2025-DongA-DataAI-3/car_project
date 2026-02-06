@@ -2,11 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>3050 인구 비중과 전기차 보급률</title>
+  <title>3050 인구 비중과 전기차 보급률 상관관계</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- 데이터 라벨 플러그인 -->
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
   <style>
@@ -14,187 +12,204 @@
       font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background-color: #f9fafb;
       padding: 40px;
+      color: #1f2937;
     }
 
-    .chart-container {
+    .chart-wrapper {
       max-width: 900px;
-      height: 420px;
       margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
+    /* 타이틀 디자인 */
     h2 {
       text-align: center;
-      margin-bottom: 4px;
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
 
     .subtitle {
       text-align: center;
-      font-size: 13px;
+      font-size: 15px;
       color: #6b7280;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
     }
 
-    /* 하단 범례 */
-    .legend {
+    .subtitle strong {
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 420px;
+      width: 100%;
+    }
+
+    /* 하단 커스텀 범례 */
+    .custom-legend {
       display: flex;
       justify-content: center;
       gap: 24px;
-      margin-top: 10px;
-      font-size: 13px;
-      color: #374151;
+      margin-top: 25px;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
-    .legend-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #2563eb;
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; background-color: #2563eb; }
+    .legend-line { width: 20px; height: 3px; background-color: #ef4444; }
+
+    /* 인사이트 박스 디자인 (Indigo-Blue Gradient) */
+    .insight-box {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 20px 25px;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+      border-left: 5px solid #4f46e5;
+      border-radius: 12px;
     }
 
-    .legend-line {
-      width: 18px;
-      height: 3px;
-      background-color: #ef4444;
-      border-radius: 2px;
+    .insight-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #3730a3;
+      margin-bottom: 8px;
+    }
+
+    .insight-content {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #312e81;
+      word-break: keep-all;
     }
   </style>
 </head>
 <body>
 
-<div class="chart-container">
-  <h2>2025년 광주 자치구별 30~50대 인구 비중과 전기차 보급률</h2>
-  <div class="subtitle">상관계수 (r) = 0.8566</div>
+<div class="chart-wrapper">
+  <h2>3050 인구 비중과 전기차 보급률 상관관계</h2>
+  <div class="subtitle">2025년 기준 | 상관계수(r) = <strong>0.8566</strong> (강한 양의 상관관계)</div>
+  
+  <div class="chart-container">
+    <canvas id="correlationChart"></canvas>
+  </div>
 
-  <canvas id="correlationChart"></canvas>
-
-  <div class="legend">
+  <div class="custom-legend">
     <div class="legend-item">
-      <span class="legend-dot"></span>
-      <span>자치구</span>
+      <div class="legend-dot"></div>
+      <span>자치구 데이터</span>
     </div>
     <div class="legend-item">
-      <span class="legend-line"></span>
-      <span>추세선</span>
+      <div class="legend-line"></div>
+      <span>경향성 추세선</span>
     </div>
   </div>
 </div>
-<br><br><br><hr><div>🧠 인사이트<br>
-30~50대 인구 비중이 높은 자치구일수록
-전기차 보급률 또한 높은 경향을 보인다.</div>
+
+<div class="insight-box">
+  <div class="insight-title">💡 데이터 분석 결과</div>
+  <div class="insight-content">
+    분석 결과, <strong>경제 활동이 가장 활발한 30~50대 인구 비중</strong>이 높은 자치구일수록 전기차 보급률 또한 비례해서 높아지는 강한 상관관계가 나타났습니다. <br>
+    이는 전기차 구매력을 갖춘 핵심 연령층의 거주 분포가 해당 지역의 친환경 모빌리티 전환 속도를 결정짓는 주요 변수임을 시사합니다.
+  </div>
+</div>
 
 <script>
-const ctx = document.getElementById('correlationChart');
+  window.onload = function() {
+    Chart.register(ChartDataLabels);
 
-new Chart(ctx, {
-  type: 'scatter',
-  data: {
-    datasets: [
-      {
-        label: '자치구',
-        data: [
-          { x: 47.54, y: 1.62, district: '광산구' },
-          { x: 45.04, y: 1.58, district: '서구' },
-          { x: 45.21, y: 1.44, district: '북구' },
-          { x: 43.76, y: 1.36, district: '남구' },
-          { x: 43.51, y: 1.26, district: '동구' }
-        ],
-        backgroundColor: '#2563eb',
-        pointRadius: 6
-      },
-      {
-        label: '추세선',
-        type: 'line',
-        data: [
-          { x: 43.5, y: 1.33 },
-          { x: 47.6, y: 1.66 }
-        ],
-        borderColor: '#ef4444',
-        borderWidth: 2,
-        pointRadius: 0,
-        tension: 0
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      datalabels: {
-        align: 'right',
-        anchor: 'left',
-        offset: 6,
-        formatter: (value, context) => {
-          if (context.dataset.label === '자치구') {
-            return value.district;
+    const ctx = document.getElementById('correlationChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [
+          {
+            label: '자치구',
+            data: [
+              { x: 47.54, y: 1.62, district: '광산구' },
+              { x: 45.04, y: 1.58, district: '서구' },
+              { x: 45.21, y: 1.44, district: '북구' },
+              { x: 43.76, y: 1.36, district: '남구' },
+              { x: 43.51, y: 1.26, district: '동구' }
+            ],
+            backgroundColor: '#2563eb',
+            borderColor: '#ffffff',
+            borderWidth: 1,
+            pointRadius: 8,
+            pointHoverRadius: 10,
+            zIndex: 2
+          },
+          {
+            label: '추세선',
+            type: 'line',
+            data: [
+              { x: 43.5, y: 1.33 },
+              { x: 47.6, y: 1.66 }
+            ],
+            borderColor: '#ef4444',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+            zIndex: 1
           }
-          return '';
-        },
-        color: '#111827',
-        font: {
-          size: 12,
-          weight: 'bold'
-        }
+        ]
       },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            const v = ctx.raw;
-            if (v.district) {
-              return `${v.district} | 30~50대: ${v.x}% / 전기차 보급률: ${v.y}%`;
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            align: 'top',
+            offset: 8,
+            formatter: (value, context) => context.dataset.label === '자치구' ? value.district : '',
+            color: '#1f2937',
+            font: { size: 12, weight: 'bold' }
+          },
+          tooltip: {
+            padding: 12,
+            callbacks: {
+              label: ctx => {
+                const v = ctx.raw;
+                return v.district ? ` ${v.district} (인구비중: ${v.x}%, 보급률: ${v.y}%)` : null;
+              }
             }
-            return null;
+          }
+        },
+        scales: {
+          x: {
+            min: 43.0,
+            max: 48.0,
+            title: { display: true, text: '30~50대 인구 비중 (%)', font: { weight: 'bold' } },
+            grid: { color: '#f3f4f6' }
+          },
+          y: {
+            min: 1.20,
+            max: 1.70,
+            title: { display: true, text: '전기차 보급률 (%)', font: { weight: 'bold' } },
+            grid: { color: '#f3f4f6' }
           }
         }
       }
-    },
-    scales: {
-      x: {
-        min: 43.0,
-        max: 48.0,
-        ticks: {
-          stepSize: 0.5
-        },
-        title: {
-          display: true,
-          text: '30~50대 인구 비중 (%)',
-          font: {
-            weight: 'bold'
-          }
-        },
-        grid: {
-          color: '#e5e7eb'
-        }
-      },
-      y: {
-        min: 1.20,
-        max: 1.70,
-        ticks: {
-          stepSize: 0.05
-        },
-        title: {
-          display: true,
-          text: '전기차 보급률 (%)',
-          font: {
-            weight: 'bold'
-          }
-        },
-        grid: {
-          color: '#e5e7eb'
-        }
-      }
-    }
-  },
-  plugins: [ChartDataLabels]
-});
+    });
+  };
 </script>
 
 </body>

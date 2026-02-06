@@ -2,90 +2,191 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>구별 인구수 × 전기차 보급률 (2025)</title>
+  <title>구별 인구수 및 전기차 보급률 분석</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- DataLabels -->
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
   <style>
-    .chart-container {
-      width: 850px;
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      padding: 40px;
+      color: #1f2937;
+    }
+
+    .chart-wrapper {
+      max-width: 900px;
       margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 타이틀 디자인 */
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 30px;
+      letter-spacing: -0.5px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 450px;
+      width: 100%;
+    }
+
+    /* 하단 커스텀 범례 */
+    .custom-legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bubble-icon { width: 14px; height: 14px; border-radius: 50%; background-color: rgba(37, 99, 235, 0.7); }
+
+    /* 인사이트 박스 디자인 (Teal-Cyan Gradient) */
+    .insight-box {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 25px;
+      background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+      border-left: 6px solid #0d9488;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .insight-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 19px;
+      font-weight: bold;
+      color: #0f766e;
+      margin-bottom: 12px;
+    }
+
+    .insight-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #134e4a;
+      word-break: keep-all;
     }
   </style>
 </head>
 <body>
 
-<div class="chart-container">
-  <canvas id="populationEvChart"></canvas>
+<div class="chart-wrapper">
+  <h2>구별 인구수 대비 전기차 보급 현황 (2025)</h2>
+  
+  <div class="chart-container">
+    <canvas id="populationEvChart"></canvas>
+  </div>
+
+  <div class="custom-legend">
+    <div class="legend-item">
+      <div class="bubble-icon"></div>
+      <span>자치구별 데이터 (원의 크기는 상대적 인구 규모)</span>
+    </div>
+  </div>
 </div>
-<br><br><br><hr><div>🧠 인사이트<br>
-자치구별 전기차 보급률은 거의 동일해 보이지만,
-인구 규모를 함께 고려하면
-실제 전기차 대수는 크게 달라진다.</div>
+
+<div class="insight-box">
+  <div class="insight-title">💡 데이터 분석 결과</div>
+  <div class="insight-content">
+    보급률 수치 자체는 전 자치구가 약 <strong>2.81%</strong> 내외로 유사한 수준을 보이고 있습니다. <br>
+    하지만 버블의 위치와 크기에서 알 수 있듯이, <strong>북구와 광산구</strong>는 압도적인 인구 규모를 바탕으로 동일 보급률 대비 훨씬 많은 수의 전기차를 수용하고 있으며, 이는 향후 충전 인프라 수요가 이들 지역에 집중될 것임을 의미합니다.
+  </div>
+</div>
+
 <script>
-  Chart.register(ChartDataLabels);
+  window.onload = function() {
+    Chart.register(ChartDataLabels);
 
-  const ctx = document.getElementById('populationEvChart');
+    const ctx = document.getElementById('populationEvChart').getContext('2d');
 
-  const bubbleData = [
-    { x: 104888, y: 2.816757, r: 15, district: '동구' },
-    { x: 275063, y: 2.817188, r: 22, district: '서구' },
-    { x: 207596, y: 2.817248, r: 18, district: '남구' },
-    { x: 416862, y: 2.817269, r: 28, district: '북구' },
-    { x: 387604, y: 2.817252, r: 26, district: '광산구' }
-  ];
+    const bubbleData = [
+      { x: 104888, y: 2.816757, r: 15, district: '동구' },
+      { x: 275063, y: 2.817188, r: 25, district: '서구' },
+      { x: 207596, y: 2.817248, r: 20, district: '남구' },
+      { x: 416862, y: 2.817269, r: 35, district: '북구' },
+      { x: 387604, y: 2.817252, r: 32, district: '광산구' }
+    ];
 
-  new Chart(ctx, {
-    type: 'bubble',
-    data: {
-      datasets: [{
-        label: '자치구',
-        data: bubbleData,
-        backgroundColor: 'rgba(37, 99, 235, 0.6)'
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: '구별 인구수 × 전기차 보급률 (2025)'
-        },
-        datalabels: {
-          formatter: value => value.district,
-          anchor: 'center',
-          align: 'center',
-          font: {
-            size: 12,
-            weight: 'bold'
-          },
-          color: '#111827'
-        }
+    new Chart(ctx, {
+      type: 'bubble',
+      data: {
+        datasets: [{
+          label: '자치구',
+          data: bubbleData,
+          backgroundColor: 'rgba(37, 99, 235, 0.6)',
+          borderColor: '#2563eb',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(37, 99, 235, 0.9)',
+          hoverBorderWidth: 2,
+        }]
       },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: '인구수 (명)'
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { top: 20, right: 40, left: 10 }
+        },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            formatter: value => value.district,
+            anchor: 'center',
+            align: 'center',
+            color: '#1f2937',
+            font: {
+              size: 13,
+              weight: 'bold'
+            },
+            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+            textShadowBlur: 4
+          },
+          tooltip: {
+            padding: 12,
+            callbacks: {
+              label: (ctx) => {
+                const v = ctx.raw;
+                return ` ${v.district} | 인구: ${v.x.toLocaleString()}명 | 보급률: ${v.y.toFixed(4)}%`;
+              }
+            }
           }
         },
-        y: {
-          title: {
-            display: true,
-            text: '전기차 보급률 (%)'
+        scales: {
+          x: {
+            title: { display: true, text: '인구수 (명)', font: { weight: 'bold', size: 14 } },
+            grid: { color: '#f3f4f6' },
+            ticks: { callback: v => v.toLocaleString() }
           },
-          min: 2.8165,
-          max: 2.8174
+          y: {
+            title: { display: true, text: '전기차 보급률 (%)', font: { weight: 'bold', size: 14 } },
+            min: 2.8165,
+            max: 2.8175,
+            grid: { color: '#f3f4f6' },
+            ticks: { stepSize: 0.0002 }
+          }
         }
       }
-    }
-  });
+    });
+  };
 </script>
 
 </body>

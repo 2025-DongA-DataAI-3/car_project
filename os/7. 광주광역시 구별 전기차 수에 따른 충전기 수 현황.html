@@ -2,112 +2,202 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>광주광역시 구별 전기차 수와 충전기 수 현황</title>
+  <title>광주광역시 구별 전기차 및 충전기 현황</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- DataLabels -->
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
   <style>
-    .chart-container {
-      width: 850px;
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background-color: #f9fafb;
+      padding: 40px;
+      color: #1f2937;
+    }
+
+    .chart-wrapper {
+      max-width: 900px;
       margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 타이틀 디자인 */
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 30px;
+      letter-spacing: -0.5px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 420px;
+      width: 100%;
+    }
+
+    /* 하단 커스텀 범례 */
+    .custom-legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 25px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .line-solid { width: 24px; height: 3px; background-color: #2563eb; position: relative; }
+    .line-solid::after { content: ''; position: absolute; width: 6px; height: 6px; background: #2563eb; border-radius: 50%; top: -1.5px; left: 9px; }
+    
+    .line-dashed { width: 24px; height: 3px; border-top: 3px dashed #dc2626; position: relative; }
+    .line-dashed::after { content: ''; position: absolute; width: 6px; height: 6px; background: #dc2626; top: -1.5px; left: 9px; }
+
+    /* 인사이트 박스 디자인 (Purple-Indigo Gradient) */
+    .insight-box {
+      max-width: 900px;
+      margin: 30px auto 0;
+      padding: 20px 25px;
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      border-left: 5px solid #7c3aed;
+      border-radius: 12px;
+    }
+
+    .insight-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #5b21b6;
+      margin-bottom: 8px;
+    }
+
+    .insight-content {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #4c1d95;
+      word-break: keep-all;
     }
   </style>
 </head>
 <body>
 
-<div class="chart-container">
-  <canvas id="evChargerLineChart"></canvas>
+<div class="chart-wrapper">
+  <h2>광주광역시 구별 전기차 수와 충전기 수 현황</h2>
+  
+  <div class="chart-container">
+    <canvas id="evChargerLineChart"></canvas>
+  </div>
+
+  <div class="custom-legend">
+    <div class="legend-item">
+      <div class="line-solid"></div>
+      <span>전기차 수 (대)</span>
+    </div>
+    <div class="legend-item">
+      <div class="line-dashed"></div>
+      <span>충전기 수 (개)</span>
+    </div>
+  </div>
 </div>
-<br><br><br><hr><div>🧠 인사이트<br>
-전기차 수가 많은 자치구일수록 충전기 수 역시 많지만,
-그 증가 속도는 전기차 증가 속도를 완전히 따라가지 못한다.</div>
+
+<div class="insight-box">
+  <div class="insight-title">💡 데이터 분석 결과</div>
+  <div class="insight-content">
+    전기차 보급이 가장 활발한 <strong>북구와 광산구</strong>에서 충전기 인프라도 가장 많이 구축되어 있습니다. <br>
+    다만, 그래프의 간격을 보면 알 수 있듯이 <strong>전기차 증가 속도에 비해 충전기 확충 속도가 다소 더딘 편</strong>이며, 특히 차량 등록 대수가 많은 지역일수록 충전 편의성을 위한 추가 인프라 확보가 중요해 보입니다.
+  </div>
+</div>
+
 <script>
-  Chart.register(ChartDataLabels);
+  window.onload = function() {
+    Chart.register(ChartDataLabels);
 
-  const ctx = document.getElementById('evChargerLineChart');
+    const ctx = document.getElementById('evChargerLineChart').getContext('2d');
 
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['동구', '서구', '남구', '북구', '광산구'],
-      datasets: [
-        {
-          label: '전기차 수 (대)',
-          data: [1371, 4285, 2750, 5935, 6219],
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb',
-          borderWidth: 3,
-          tension: 0.3,
-          pointRadius: 5,
-          datalabels: {
-            formatter: value => value.toLocaleString() + '대'
-          }
-        },
-        {
-          label: '충전기 수 (개)',
-          data: [1200, 2949, 1891, 3766, 4186],
-          borderColor: '#dc2626',
-          backgroundColor: '#dc2626',
-          borderWidth: 2,
-          borderDash: [6, 6],   // 🔹 점선
-          tension: 0.3,
-          pointRadius: 5,
-          pointStyle: 'rectRounded',
-          datalabels: {
-            formatter: value => value.toLocaleString() + '개'
-          }
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: '광주광역시 구별 전기차 수와 충전기 수 현황'
-        },
-        datalabels: {
-          anchor: 'end',
-          align: 'top',
-          font: {
-            size: 11,
-            weight: 'bold'
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              const label = ctx.dataset.label;
-              const value = ctx.raw;
-              return `${label}: ${value.toLocaleString()}`;
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['동구', '서구', '남구', '북구', '광산구'],
+        datasets: [
+          {
+            label: '전기차 수 (대)',
+            data: [1371, 4285, 2750, 5935, 6219],
+            borderColor: '#2563eb',
+            backgroundColor: '#2563eb',
+            borderWidth: 3,
+            tension: 0.3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            datalabels: {
+              align: 'top',
+              offset: 8,
+              color: '#2563eb',
+              formatter: value => value.toLocaleString() + '대'
+            }
+          },
+          {
+            label: '충전기 수 (개)',
+            data: [1200, 2949, 1891, 3766, 4186],
+            borderColor: '#dc2626',
+            backgroundColor: '#dc2626',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            tension: 0.3,
+            pointRadius: 6,
+            pointStyle: 'rectRounded',
+            datalabels: {
+              align: 'bottom',
+              offset: 8,
+              color: '#dc2626',
+              formatter: value => value.toLocaleString() + '개'
             }
           }
-        }
+        ]
       },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: '자치구'
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            font: {
+              size: 11,
+              weight: 'bold'
+            }
+          },
+          tooltip: {
+            padding: 12,
+            callbacks: {
+              label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}`
+            }
           }
         },
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: '전기차 수(대) / 충전기 수(개)'
+        scales: {
+          x: {
+            title: { display: true, text: '자치구', font: { weight: 'bold' } },
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: '대수 / 개수', font: { weight: 'bold' } },
+            grid: { color: '#f3f4f6' },
+            ticks: { callback: val => val.toLocaleString() }
           }
         }
       }
-    },
-    plugins: [ChartDataLabels]
-  });
+    });
+  };
 </script>
 
 </body>

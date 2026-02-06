@@ -2,110 +2,97 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>광주광역시 보조금 변화와 전기차 보급 상승량 추이</title>
-
-  <!-- Chart.js -->
+  <title>광주광역시 보조금 및 전기차 보급 추이</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- DataLabels -->
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <style>
-    .chart-container {
-      width: 850px;
-      margin: 0 auto;
-    }
+    body { font-family: 'Apple SD Gothic Neo', sans-serif; background-color: #f9fafb; padding: 40px; color: #1f2937; }
+    .chart-wrapper { max-width: 900px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    h2 { text-align: center; font-size: 24px; font-weight: 800; color: #111827; margin-bottom: 30px; }
+    .chart-container { position: relative; height: 400px; width: 100%; }
+    .custom-legend { display: flex; justify-content: center; gap: 24px; margin-top: 20px; font-size: 14px; font-weight: 600; }
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .box-blue { width: 18px; height: 10px; background-color: #7abfff; border-radius: 2px; }
+    .line-blue { width: 20px; height: 3px; background-color: #2563eb; position: relative; }
+    .line-blue::after { content: ''; position: absolute; width: 6px; height: 6px; background: #2563eb; border-radius: 50%; top: -1.5px; left: 7px; }
+    .insight-box { max-width: 900px; margin: 30px auto 0; padding: 20px 25px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 5px solid #2563eb; border-radius: 8px; }
+    .insight-title { font-size: 17px; font-weight: bold; color: #1e40af; margin-bottom: 8px; }
+    .insight-content { font-size: 15px; line-height: 1.6; color: #1e3a8a; }
   </style>
 </head>
 <body>
-
-<div class="chart-container">
-  <canvas id="subsidyEvChart"></canvas>
+<div class="chart-wrapper">
+  <h2>광주광역시 보조금 변화와 전기차 보급 상승량 추이</h2>
+  <div class="chart-container">
+    <canvas id="subsidyEvChart"></canvas>
+  </div>
+  <div class="custom-legend">
+    <div class="legend-item"><div class="line-blue"></div><span>평균 보조금 (만원)</span></div>
+    <div class="legend-item"><div class="box-blue"></div><span>전기차 보급 상승량 (대)</span></div>
+  </div>
 </div>
-<br><br><br><hr><div>🧠 인사이트<br>
-보조금 규모와 전기차 보급 상승량을 비교해보면,
-두 지표가 항상 같은 방향으로 움직이지는 않는다.</div>
+<div class="insight-box">
+  <div class="insight-title">💡 데이터 분석 결과</div>
+  <div class="insight-content">보조금 규모와 전기차 보급 상승량은 반드시 정비례하지 않았습니다.</div>
+</div>
 <script>
-  // Chart.js v4 필수
-  Chart.register(ChartDataLabels);
-
-  const ctx = document.getElementById('subsidyEvChart');
-
-  new Chart(ctx, {
-    data: {
-      labels: ['2021', '2022', '2023', '2024', '2025'],
-      datasets: [
-        {
-          type: 'line',
-          label: '보조금 (만원)',
-          data: [1213, 1948, 2023, 1760, 3122],
-          yAxisID: 'y',
-          borderColor: '#2563eb',
-          backgroundColor: '#2563eb',
-          borderWidth: 3,
-          tension: 0.3,
-          pointRadius: 4
-        },
-        {
-          type: 'bar',
-          label: '전기차 보급 상승량 (대)',
-          data: [2413, 3515, 4192, 2735, 4042],
-          yAxisID: 'y1',
-          backgroundColor: '#7abfff'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: '광주광역시 보조금 변화와 전기차 보급 상승량 추이 (2021~2025)'
-        },
-        datalabels: {
-          formatter: (value, context) => {
-            return context.dataset.label.includes('보조금')
-              ? value + '만원'
-              : value + '대';
+  window.onload = function() {
+    Chart.register(ChartDataLabels);
+    const ctx = document.getElementById('subsidyEvChart').getContext('2d');
+    new Chart(ctx, {
+      data: {
+        labels: ['2021', '2022', '2023', '2024', '2025'],
+        datasets: [
+          {
+            type: 'line',
+            label: '보조금 (만원)',
+            data: [1213, 1948, 2023, 1760, 3122],
+            yAxisID: 'y',
+            borderColor: '#2563eb',
+            backgroundColor: '#2563eb',
+            borderWidth: 3, tension: 0.3, pointRadius: 5,
+            datalabels: {
+              align: 'bottom', // 보조금 글씨를 그래프 아래로 내림
+              anchor: 'start',
+              offset: 10
+            }
           },
-          anchor: 'end',
-          align: 'top',
-          font: {
-            size: 11,
-            weight: 'bold'
+          {
+            type: 'bar',
+            label: '전기차 보급 상승량 (대)',
+            data: [2413, 3515, 4192, 2735, 4042],
+            yAxisID: 'y1',
+            backgroundColor: '#7abfff',
+            borderRadius: 4,
+            barPercentage: 0.6,
+            datalabels: {
+              align: 'top', // 막대 그래프 글씨는 막대 위로 유지
+              anchor: 'end',
+              offset: 4
+            }
           }
-        }
+        ]
       },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: '연도'
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 30, bottom: 30 } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            formatter: (value, context) => context.dataset.type === 'line' ? value.toLocaleString() + '만' : value.toLocaleString() + '대',
+            font: { size: 11, weight: 'bold' },
+            color: (context) => context.dataset.type === 'line' ? '#2563eb' : '#6b7280'
           }
         },
-        y: {
-          position: 'left',
-          title: {
-            display: true,
-            text: '보조금 (만원)'
-          }
-        },
-        y1: {
-          position: 'right',
-          grid: {
-            drawOnChartArea: false
-          },
-          title: {
-            display: true,
-            text: '전기차 보급 상승량 (대)'
-          }
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { weight: 'bold' } } },
+          y: { position: 'left', beginAtZero: true, suggestedMax: 4000, title: { display: true, text: '보조금 (만원)' } },
+          y1: { position: 'right', beginAtZero: true, suggestedMax: 5000, grid: { drawOnChartArea: false }, title: { display: true, text: '보급 상승량 (대)' } }
         }
       }
-    }
-  });
+    });
+  };
 </script>
-
 </body>
 </html>
