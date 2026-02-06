@@ -24,11 +24,6 @@ body {
     align-items: stretch;
 }
 
-.content {
-    flex: 1;
-    padding: 40px;
-}
-
 .sidebar {
     width: 240px;
     background: linear-gradient(120deg, #0b3d2e, #0f172a);
@@ -74,7 +69,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* 메뉴와 푸터를 양 끝으로 보냄 */
-    height: 100vh;
     padding-bottom: 30px;
 }
 
